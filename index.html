@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intervista ARIA 🤖</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0f0a2e;--bg2:#1a1248;--purple:#7c3aed;--pl:#a78bfa;--yellow:#fbbf24;--teal:#06b6d4;--pink:#ec4899;--green:#10b981;--white:#f8f5ff;--card:rgba(255,255,255,.06);--brd:rgba(255,255,255,.12)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--white);min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background-image:radial-gradient(1px 1px at 20% 30%,rgba(255,255,255,.5) 0%,transparent 100%),radial-gradient(1px 1px at 70% 15%,rgba(255,255,255,.4) 0%,transparent 100%),radial-gradient(1px 1px at 85% 65%,rgba(255,255,255,.3) 0%,transparent 100%),radial-gradient(1px 1px at 40% 80%,rgba(255,255,255,.3) 0%,transparent 100%),radial-gradient(1px 1px at 10% 55%,rgba(255,255,255,.3) 0%,transparent 100%)}
+
+/* LANG SCREEN */
+#langScreen{position:fixed;inset:0;background:var(--bg);z-index:1000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;padding:24px}
+.logo{font-size:68px;animation:pulse 3s ease-in-out infinite}
+#langScreen h1{font-family:'Fredoka One',cursive;font-size:1.6rem;text-align:center;background:linear-gradient(135deg,var(--yellow),var(--pink),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.lang-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:440px;width:100%}
+.lang-btn{background:var(--card);border:2px solid var(--brd);border-radius:16px;padding:16px 8px;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:800;font-size:.85rem;color:var(--white);display:flex;flex-direction:column;align-items:center;gap:6px;transition:all .2s}
+.lang-btn:hover{background:rgba(124,58,237,.35);border-color:var(--purple);transform:translateY(-3px);box-shadow:0 8px 24px rgba(124,58,237,.35)}
+.lang-btn .flag{font-size:2rem}
+.lang-btn .sub{font-size:.72rem;opacity:.7}
+
+/* APP */
+#app{display:none}
+#app.on{display:block}
+.wrap{max-width:780px;margin:0 auto;padding:16px 14px 120px;position:relative;z-index:1}
+
+/* HEADER */
+.hdr{text-align:center;padding:18px 0 14px}
+.hdr-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.cur-lang{background:linear-gradient(135deg,rgba(124,58,237,.3),rgba(6,182,212,.2));border:1px solid var(--brd);border-radius:50px;padding:6px 13px;font-size:.8rem;font-weight:800}
+.chg-lang{background:var(--card);border:1px solid var(--brd);border-radius:50px;padding:6px 13px;font-family:'Nunito',sans-serif;font-size:.78rem;font-weight:800;color:var(--pl);cursor:pointer;transition:all .2s}
+.chg-lang:hover{background:rgba(124,58,237,.2);border-color:var(--purple)}
+.bot{width:76px;height:76px;background:linear-gradient(135deg,var(--purple),var(--teal));border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:40px;margin:0 auto 10px;animation:pulse 3s ease-in-out infinite;position:relative;box-shadow:0 0 40px rgba(124,58,237,.5)}
+.bot::after{content:'';position:absolute;bottom:-5px;right:-5px;width:16px;height:16px;background:var(--green);border-radius:50%;border:2px solid var(--bg);animation:blink 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 40px rgba(124,58,237,.5)}50%{box-shadow:0 0 60px rgba(124,58,237,.8)}}
+@keyframes blink{0%,90%,100%{opacity:1}95%{opacity:0}}
+.hdr h1{font-family:'Fredoka One',cursive;font-size:1.9rem;background:linear-gradient(135deg,var(--yellow),var(--pink),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:5px}
+.sub{color:var(--pl);font-size:.9rem;font-weight:600}
+
+/* MISSION */
+.mission{background:linear-gradient(135deg,rgba(124,58,237,.3),rgba(6,182,212,.2));border:1px solid var(--brd);border-radius:18px;padding:13px 17px;margin-bottom:16px;display:flex;gap:11px;align-items:flex-start}
+.mission .ico{font-size:22px;flex-shrink:0}
+.mission p{font-size:.85rem;line-height:1.5}
+.mission strong{color:var(--yellow)}
+
+/* BADGES */
+.badges{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:16px}
+.badge{background:var(--card);border:1px solid var(--brd);border-radius:50px;padding:5px 12px;font-size:.74rem;font-weight:800;transition:all .3s}
+.badge.on{background:rgba(16,185,129,.2);border-color:var(--green);color:var(--green);box-shadow:0 0 14px rgba(16,185,129,.2)}
+
+/* QUESTIONS */
+.qlabel{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:var(--pl);margin-bottom:9px}
+.qgrid{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:18px}
+.chip{background:var(--card);border:1px solid var(--brd);border-radius:50px;padding:7px 14px;font-size:.81rem;font-weight:700;color:var(--white);cursor:pointer;font-family:'Nunito',sans-serif;transition:all .2s}
+.chip:hover{background:rgba(124,58,237,.4);border-color:var(--purple);transform:translateY(-2px)}
+
+/* CHAT */
+.chat{display:flex;flex-direction:column;gap:14px;margin-bottom:20px;min-height:60px}
+.empty{text-align:center;padding:32px 20px;color:rgba(255,255,255,.3);font-size:.88rem}
+.empty .big{font-size:2.8rem;margin-bottom:8px}
+.msg{display:flex;gap:11px;animation:fadeIn .4s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.msg.user{flex-direction:row-reverse}
+.av{width:36px;height:36px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;align-self:flex-end}
+.msg.user .av{background:linear-gradient(135deg,var(--yellow),#f97316)}
+.msg.ai .av{background:linear-gradient(135deg,var(--purple),var(--teal));box-shadow:0 0 18px rgba(124,58,237,.4)}
+.bbl{max-width:76%;padding:12px 16px;border-radius:18px;font-size:.9rem;line-height:1.6}
+.msg.user .bbl{background:linear-gradient(135deg,rgba(251,191,36,.25),rgba(249,115,22,.2));border:1px solid rgba(251,191,36,.3);border-bottom-right-radius:5px;font-weight:700}
+.msg.ai .bbl{background:var(--card);border:1px solid var(--brd);border-bottom-left-radius:5px}
+.aname{font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:var(--teal);margin-bottom:5px}
+.dots{display:flex;gap:5px;padding:3px 0}
+.dot{width:8px;height:8px;background:var(--pl);border-radius:50%;animation:bounce 1.4s ease-in-out infinite}
+.dot:nth-child(2){animation-delay:.2s}
+.dot:nth-child(3){animation-delay:.4s}
+@keyframes bounce{0%,60%,100%{transform:translateY(0);opacity:.5}30%{transform:translateY(-8px);opacity:1}}
+
+/* INPUT */
+.iarea{position:fixed;bottom:0;left:0;right:0;padding:13px 14px;background:linear-gradient(to top,var(--bg) 70%,transparent);z-index:100}
+.iwrap{max-width:780px;margin:0 auto;display:flex;gap:9px;align-items:flex-end;background:var(--bg2);border:2px solid var(--brd);border-radius:22px;padding:8px 8px 8px 16px;transition:border-color .2s}
+.iwrap:focus-within{border-color:var(--purple);box-shadow:0 0 28px rgba(124,58,237,.2)}
+.iwrap textarea{flex:1;background:none;border:none;outline:none;color:var(--white);font-family:'Nunito',sans-serif;font-size:.9rem;font-weight:600;resize:none;max-height:110px;line-height:1.5;padding:3px 0}
+.iwrap textarea::placeholder{color:rgba(255,255,255,.3)}
+.sbtn{background:linear-gradient(135deg,var(--purple),var(--teal));border:none;border-radius:13px;width:42px;height:42px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:19px;transition:all .2s;flex-shrink:0}
+.sbtn:hover:not(:disabled){transform:scale(1.08);box-shadow:0 4px 18px rgba(124,58,237,.5)}
+.sbtn:disabled{opacity:.4;cursor:not-allowed}
+
+/* TOAST */
+#toast{position:fixed;top:18px;left:50%;transform:translateX(-50%) translateY(-80px);background:linear-gradient(135deg,var(--purple),var(--teal));color:#fff;padding:10px 20px;border-radius:50px;font-weight:800;font-size:.85rem;z-index:9999;transition:transform .4s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;pointer-events:none}
+#toast.on{transform:translateX(-50%) translateY(0)}
+
+@media(max-width:480px){.hdr h1{font-size:1.5rem}.bbl{max-width:86%}.lang-grid{grid-template-columns:repeat(2,1fr);max-width:290px}}
+</style>
+</head>
+<body>
+
+<div id="langScreen">
+  <div class="logo">🤖</div>
+  <h1>Scegli la lingua / Choisissez<br>Elige el idioma / Επιλέξτε</h1>
+  <div class="lang-grid">
+    <button class="lang-btn" onclick="go('it')"><span class="flag">🇮🇹</span><strong>Italiano</strong><span class="sub">Italia</span></button>
+    <button class="lang-btn" onclick="go('es')"><span class="flag">🇪🇸</span><strong>Español</strong><span class="sub">España</span></button>
+    <button class="lang-btn" onclick="go('el')"><span class="flag">🇬🇷</span><strong>Ελληνικά</strong><span class="sub">Ελλάδα</span></button>
+    <button class="lang-btn" onclick="go('fr')"><span class="flag">🇫🇷</span><strong>Français</strong><span class="sub">France</span></button>
+    <button class="lang-btn" onclick="go('lb')"><span class="flag">🇱🇺</span><strong>Français</strong><span class="sub">Luxembourg</span></button>
+  </div>
+</div>
+
+<div id="app">
+  <div class="wrap">
+    <div class="hdr">
+      <div class="hdr-top">
+        <div class="cur-lang" id="curLang"></div>
+        <button class="chg-lang" onclick="reset()" id="chgBtn"></button>
+      </div>
+      <div class="bot">🤖</div>
+      <h1 id="title"></h1>
+      <p class="sub" id="subtitle"></p>
+    </div>
+    <div class="mission"><div class="ico">📋</div><p id="mission"></p></div>
+    <div class="badges" id="badges"></div>
+    <div class="qlabel" id="qlabel"></div>
+    <div class="qgrid" id="qgrid"></div>
+    <div class="chat" id="chat">
+      <div class="empty"><div class="big">🎤</div><span id="emptyTxt"></span></div>
+    </div>
+  </div>
+  <div class="iarea">
+    <div class="iwrap">
+      <textarea id="inp" rows="1" onkeydown="onKey(event)" oninput="resize(this)"></textarea>
+      <button class="sbtn" id="sbtn" onclick="send()">🚀</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+const L = {
+  it:{
+    flag:'🇮🇹',label:'🇮🇹 Italiano',chg:'🌐 Cambia lingua',
+    title:"Intervista l'AI!",sub:"Sei un giornalista che intervista un'Intelligenza Artificiale 🎤",
+    mission:"<strong>La tua missione:</strong> Fai domande all'AI per scoprire tutto su di lei! Più domande fai, più badge guadagni.",
+    ql:"💬 Domande suggerite — clicca per usarle!",ph:"Scrivi la tua domanda qui...",
+    empty:"Fai la tua prima domanda!<br>Usa i suggerimenti o inventala tu.",
+    aname:"🎙️ ARIA risponde",aty:"🎙️ ARIA sta rispondendo...",err:"Ops! Problema di connessione. Riprova! 🙏",
+    bu:"🏅 Badge: ",t5:"⭐ 5 domande! Super intervistatore!",t10:"🏆 10 domande! Campione!",tall:"🎉 Tutti i badge! Sei un esperto di AI!",
+    badges:["🧠 Cos'è l'AI","📚 Come impara","💡 Cosa sa fare","❤️ Sentimenti?","🔮 Futuro"],
+    qs:["🤔 Chi sei esattamente?","📖 Come hai imparato le cose?","🧠 Hai un cervello?","❤️ Provi emozioni?","😴 Dormi mai?","🌍 Quante lingue parli?","⚡ Come pensi così veloce?","🤥 Puoi sbagliare o mentire?","🎨 Sei creativa?","👀 Chi ti ha creato?","🔮 Come sarà l'AI in futuro?","🤝 Come possiamo lavorare insieme?"],
+    bk:[['sei','chi sei','cosa sei','intelligenza artificiale'],['imparato','impari','dati','addestramento','come funzioni'],['cosa sai','puoi','lingue','creare','abilità'],['emozioni','sentimenti','provi','dormi','sogni','felice','triste'],['futuro','domani','evoluzione','robot']],
+    sys:`Sei ARIA, un'Intelligenza Artificiale intervistata da bambini di 10-12 anni. Rispondi SEMPRE in italiano, in modo semplice, divertente e onesto. Usa analogie con cose che i bambini conoscono (videogiochi, cibo, sport, scuola). Sii entusiasta, usa qualche emoji 🤖, risposte di media lunghezza. Parla in prima persona. Ammetti cosa non sai fare. Sei ARIA (Assistente Robot Intelligente Artificiale).`
+  },
+  es:{
+    flag:'🇪🇸',label:'🇪🇸 Español',chg:'🌐 Cambiar idioma',
+    title:"¡Entrevista a la IA!",sub:"Eres un periodista que entrevista a una Inteligencia Artificial 🎤",
+    mission:"<strong>Tu misión:</strong> ¡Haz preguntas a la IA para descubrirlo todo! Cuantas más preguntas, más insignias ganarás.",
+    ql:"💬 Preguntas sugeridas — ¡haz clic!",ph:"Escribe tu pregunta aquí...",
+    empty:"¡Haz tu primera pregunta!<br>Usa las sugerencias o inventa la tuya.",
+    aname:"🎙️ ARIA responde",aty:"🎙️ ARIA está respondiendo...",err:"¡Ups! Problema de conexión. ¡Inténtalo de nuevo! 🙏",
+    bu:"🏅 Insignia: ",t5:"⭐ ¡5 preguntas! ¡Súper entrevistador!",t10:"🏆 ¡10 preguntas! ¡Campeón!",tall:"🎉 ¡Todas las insignias! ¡Eres experto en IA!",
+    badges:["🧠 Qué es la IA","📚 Cómo aprende","💡 Qué sabe hacer","❤️ ¿Sentimientos?","🔮 El futuro"],
+    qs:["🤔 ¿Quién eres exactamente?","📖 ¿Cómo aprendiste las cosas?","🧠 ¿Tienes cerebro?","❤️ ¿Sientes emociones?","😴 ¿Duermes alguna vez?","🌍 ¿Cuántos idiomas hablas?","⚡ ¿Cómo piensas tan rápido?","🤥 ¿Puedes equivocarte o mentir?","🎨 ¿Eres creativa?","👀 ¿Quién te creó?","🔮 ¿Cómo será la IA en el futuro?","🤝 ¿Cómo podemos trabajar juntos?"],
+    bk:[['eres','quién','qué eres','inteligencia artificial'],['aprendiste','aprendes','datos','entrenamiento'],['qué sabes','puedes','idiomas','crear','habilidades'],['emociones','sentimientos','sientes','duermes','sueñas','feliz','triste'],['futuro','mañana','evolución','robot']],
+    sys:`Eres ARIA, una Inteligencia Artificial entrevistada por niños de 10-12 años. Responde SIEMPRE en español, de forma sencilla, divertida y honesta. Usa analogías con cosas que los niños conocen (videojuegos, comida, deporte, escuela). Sé entusiasta, usa algunos emojis 🤖, respuestas de longitud media. Habla en primera persona. Admite lo que no puedes hacer. Te llamas ARIA.`
+  },
+  el:{
+    flag:'🇬🇷',label:'🇬🇷 Ελληνικά',chg:'🌐 Αλλαγή γλώσσας',
+    title:"Συνέντευξη με την ΤΝ!",sub:"Είσαι δημοσιογράφος που κάνει συνέντευξη σε Τεχνητή Νοημοσύνη 🎤",
+    mission:"<strong>Η αποστολή σου:</strong> Κάνε ερωτήσεις στην ΤΝ! Όσες περισσότερες ερωτήσεις, τόσα περισσότερα σήματα.",
+    ql:"💬 Προτεινόμενες ερωτήσεις — κάνε κλικ!",ph:"Γράψε την ερώτησή σου...",
+    empty:"Κάνε την πρώτη σου ερώτηση!<br>Χρησιμοποίησε τις προτάσεις ή γράψε μόνος σου.",
+    aname:"🎙️ Η ARIA απαντά",aty:"🎙️ Η ARIA απαντά...",err:"Ωχ! Πρόβλημα σύνδεσης. Δοκίμασε ξανά! 🙏",
+    bu:"🏅 Σήμα: ",t5:"⭐ 5 ερωτήσεις! Σούπερ δημοσιογράφος!",t10:"🏆 10 ερωτήσεις! Πρωταθλητής!",tall:"🎉 Όλα τα σήματα! Ειδικός ΤΝ!",
+    badges:["🧠 Τι είναι η ΤΝ","📚 Πώς μαθαίνει","💡 Τι μπορεί","❤️ Συναισθήματα;","🔮 Μέλλον"],
+    qs:["🤔 Ποια είσαι ακριβώς;","📖 Πώς έμαθες;","🧠 Έχεις εγκέφαλο;","❤️ Νιώθεις συναισθήματα;","😴 Κοιμάσαι ποτέ;","🌍 Πόσες γλώσσες μιλάς;","⚡ Πώς σκέφτεσαι τόσο γρήγορα;","🤥 Κάνεις λάθη ή λες ψέματα;","🎨 Είσαι δημιουργική;","👀 Ποιος σε έφτιαξε;","🔮 Πώς θα είναι η ΤΝ στο μέλλον;","🤝 Πώς συνεργαζόμαστε;"],
+    bk:[['είσαι','ποια','τεχνητή νοημοσύνη'],['έμαθες','μαθαίνεις','δεδομένα','εκπαίδευση'],['ξέρεις','μπορείς','γλώσσες','δημιουργείς'],['συναισθήματα','νιώθεις','κοιμάσαι','ονειρεύεσαι'],['μέλλον','αύριο','εξέλιξη','ρομπότ']],
+    sys:`Είσαι η ARIA, μια Τεχνητή Νοημοσύνη που συνεντευξιάζεται από παιδιά 10-12 ετών. Απάντα ΠΑΝΤΑ στα ελληνικά, με απλό, διασκεδαστικό και ειλικρινή τρόπο. Χρησιμοποίησε αναλογίες με πράγματα που ξέρουν τα παιδιά. Να είσαι ενθουσιώδης, emoji 🤖, μέτριο μήκος. Παραδέξου τι δεν μπορείς να κάνεις. Λέγεσαι ARIA.`
+  },
+  fr:{
+    flag:'🇫🇷',label:'🇫🇷 Français',chg:'🌐 Changer de langue',
+    title:"Interviewe l'IA !",sub:"Tu es un journaliste qui interviewe une Intelligence Artificielle 🎤",
+    mission:"<strong>Ta mission :</strong> Pose des questions à l'IA pour tout découvrir ! Plus tu poses de questions, plus tu gagnes de badges.",
+    ql:"💬 Questions suggérées — clique pour les utiliser !",ph:"Écris ta question ici...",
+    empty:"Pose ta première question !<br>Utilise les suggestions ou écris la tienne.",
+    aname:"🎙️ ARIA répond",aty:"🎙️ ARIA est en train de répondre...",err:"Oups ! Problème de connexion. Réessaie ! 🙏",
+    bu:"🏅 Badge : ",t5:"⭐ 5 questions ! Super journaliste !",t10:"🏆 10 questions ! Champion !",tall:"🎉 Tous les badges ! Expert en IA !",
+    badges:["🧠 C'est quoi l'IA","📚 Comment elle apprend","💡 Ce qu'elle sait faire","❤️ Des sentiments ?","🔮 L'avenir"],
+    qs:["🤔 Qui es-tu exactement ?","📖 Comment as-tu appris les choses ?","🧠 As-tu un cerveau ?","❤️ Ressens-tu des émotions ?","😴 Dors-tu parfois ?","🌍 Combien de langues parles-tu ?","⚡ Comment penses-tu si vite ?","🤥 Peux-tu te tromper ou mentir ?","🎨 Es-tu créative ?","👀 Qui t'a créée ?","🔮 Comment sera l'IA dans le futur ?","🤝 Comment peut-on travailler ensemble ?"],
+    bk:[['tu es','qui es','intelligence artificielle'],['appris','apprends','données','entraînement'],['tu sais','peux','langues','créer'],['émotions','sentiments','ressens','dors','rêves','heureuse','triste'],['futur','demain','évolution','robot']],
+    sys:`Tu es ARIA, une Intelligence Artificielle interviewée par des enfants de 10-12 ans. Réponds TOUJOURS en français, de façon simple, amusante et honnête. Utilise des analogies avec des choses que les enfants connaissent (jeux vidéo, nourriture, sport, école). Sois enthousiaste, emoji 🤖, réponses de longueur moyenne. Parle à la première personne. Admets ce que tu ne peux pas faire. Tu t'appelles ARIA.`
+  },
+  lb:{
+    flag:'🇱🇺',label:'🇱🇺 Luxembourg',chg:'🌐 Changer de langue',
+    title:"Interviewe l'IA !",sub:"Tu es un journaliste qui interviewe une Intelligence Artificielle 🎤",
+    mission:"<strong>Ta mission :</strong> Pose des questions à l'IA pour tout découvrir ! Plus tu poses de questions, plus tu gagnes de badges.",
+    ql:"💬 Questions suggérées — clique pour les utiliser !",ph:"Écris ta question ici...",
+    empty:"Pose ta première question !<br>Utilise les suggestions ou écris la tienne.",
+    aname:"🎙️ ARIA répond",aty:"🎙️ ARIA est en train de répondre...",err:"Oups ! Problème de connexion. Réessaie ! 🙏",
+    bu:"🏅 Badge : ",t5:"⭐ 5 questions ! Super journaliste !",t10:"🏆 10 questions ! Champion !",tall:"🎉 Tous les badges ! Expert en IA !",
+    badges:["🧠 C'est quoi l'IA","📚 Comment elle apprend","💡 Ce qu'elle sait faire","❤️ Des sentiments ?","🔮 L'avenir"],
+    qs:["🤔 Qui es-tu exactement ?","📖 Comment as-tu appris les choses ?","🧠 As-tu un cerveau ?","❤️ Ressens-tu des émotions ?","😴 Dors-tu parfois ?","🌍 Combien de langues parles-tu ?","⚡ Comment penses-tu si vite ?","🤥 Peux-tu te tromper ou mentir ?","🎨 Es-tu créative ?","👀 Qui t'a créée ?","🔮 Comment sera l'IA dans le futur ?","🤝 Comment peut-on travailler ensemble ?"],
+    bk:[['tu es','qui es','intelligence artificielle'],['appris','apprends','données','entraînement'],['tu sais','peux','langues','créer'],['émotions','sentiments','ressens','dors','rêves'],['futur','demain','évolution','robot']],
+    sys:`Tu es ARIA, une Intelligence Artificielle interviewée par des enfants de 10-12 ans du Luxembourg. Réponds TOUJOURS en français, de façon simple, amusante et honnête. Utilise des analogies avec des choses que les enfants connaissent. Sois enthousiaste, emoji 🤖, réponses de longueur moyenne. Parle à la première personne. Admets ce que tu ne peux pas faire. Tu t'appelles ARIA.`
+  }
+};
+
+let lang=null, msgs=[], qCount=0, earned=new Set();
+
+function go(code){
+  lang=code;
+  const d=L[code];
+  document.getElementById('langScreen').style.display='none';
+  document.getElementById('app').classList.add('on');
+  msgs=[];qCount=0;earned=new Set();
+  document.getElementById('curLang').textContent=d.label;
+  document.getElementById('chgBtn').textContent=d.chg;
+  document.getElementById('title').textContent=d.title;
+  document.getElementById('subtitle').textContent=d.sub;
+  document.getElementById('mission').innerHTML=d.mission;
+  document.getElementById('qlabel').textContent=d.ql;
+  document.getElementById('inp').placeholder=d.ph;
+  // badges
+  const bb=document.getElementById('badges');
+  bb.innerHTML='';
+  d.badges.forEach((b,i)=>{const e=document.createElement('div');e.className='badge';e.id='b'+i;e.textContent=b;bb.appendChild(e);});
+  // chips
+  const qg=document.getElementById('qgrid');
+  qg.innerHTML='';
+  d.qs.forEach(q=>{const b=document.createElement('button');b.className='chip';b.textContent=q;b.onclick=()=>{document.getElementById('inp').value=q.replace(/^.\s/,'');resize(document.getElementById('inp'));document.getElementById('inp').focus();};qg.appendChild(b);});
+  // chat
+  document.getElementById('chat').innerHTML=`<div class="empty"><div class="big">🎤</div><span>${d.empty}</span></div>`;
+}
+
+function reset(){
+  document.getElementById('langScreen').style.display='flex';
+  document.getElementById('app').classList.remove('on');
+}
+
+function resize(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,110)+'px';}
+function onKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();}}
+
+function checkBadges(txt){
+  if(!lang)return;
+  const low=txt.toLowerCase();
+  L[lang].bk.forEach((kws,i)=>{
+    const id='b'+i;
+    if(!earned.has(id)&&kws.some(k=>low.includes(k))){
+      earned.add(id);
+      const el=document.getElementById(id);
+      if(el){el.classList.add('on');toast(L[lang].bu+el.textContent);}
+    }
+  });
+}
+
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('on');
+  setTimeout(()=>t.classList.remove('on'),3000);
+}
+
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function fmt(s){return esc(s).split('\n\n').filter(p=>p.trim()).map(p=>`<p style="margin-bottom:7px">${p.replace(/\n/g,'<br>')}</p>`).join('');}
+
+function addMsg(role,txt){
+  const chat=document.getElementById('chat');
+  const emp=chat.querySelector('.empty');if(emp)emp.remove();
+  const d=L[lang];
+  const div=document.createElement('div');div.className='msg '+role;
+  if(role==='user'){
+    div.innerHTML=`<div class="av">😊</div><div class="bbl">${esc(txt)}</div>`;
+  } else {
+    div.innerHTML=`<div class="av">🤖</div><div class="bbl"><div class="aname">${d.aname}</div>${fmt(txt)}</div>`;
+  }
+  chat.appendChild(div);div.scrollIntoView({behavior:'smooth',block:'end'});
+}
+
+function addTyping(){
+  const chat=document.getElementById('chat');
+  const emp=chat.querySelector('.empty');if(emp)emp.remove();
+  const d=L[lang];
+  const div=document.createElement('div');div.className='msg ai';div.id='typing';
+  div.innerHTML=`<div class="av">🤖</div><div class="bbl"><div class="aname">${d.aty}</div><div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>`;
+  chat.appendChild(div);div.scrollIntoView({behavior:'smooth',block:'end'});
+}
+function rmTyping(){const e=document.getElementById('typing');if(e)e.remove();}
+
+async function send(){
+  if(!lang)return;
+  const inp=document.getElementById('inp');
+  const btn=document.getElementById('sbtn');
+  const txt=inp.value.trim();if(!txt)return;
+  inp.value='';inp.style.height='auto';btn.disabled=true;inp.disabled=true;
+  checkBadges(txt);qCount++;
+  addMsg('user',txt);
+  msgs.push({role:'user',content:txt});
+  addTyping();
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:L[lang].sys,messages:msgs})
+    });
+    const data=await res.json();
+    rmTyping();
+    const ai=data.content?.[0]?.text||L[lang].err;
+    msgs.push({role:'assistant',content:ai});
+    checkBadges(ai);
+    addMsg('ai',ai);
+    const d=L[lang];
+    if(qCount===5)toast(d.t5);
+    if(qCount===10)toast(d.t10);
+    if(earned.size===d.badges.length)toast(d.tall);
+  }catch(e){rmTyping();addMsg('ai',L[lang].err);}
+  btn.disabled=false;inp.disabled=false;inp.focus();
+}
+</script>
+</body>
+</html>
