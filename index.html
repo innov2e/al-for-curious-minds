@@ -50,9 +50,13 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;bac
 .mission .ico{font-size:22px;flex-shrink:0}
 .mission p{font-size:.85rem;line-height:1.5}
 .mission strong{color:var(--yellow)}
-.badges{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:16px}
-.badge{background:var(--card);border:1px solid var(--brd);border-radius:50px;padding:5px 12px;font-size:.74rem;font-weight:800;transition:all .3s}
-.badge.on{background:rgba(16,185,129,.2);border-color:var(--green);color:var(--green);box-shadow:0 0 14px rgba(16,185,129,.2)}
+.badge-section{margin-bottom:18px}
+.badge-counter{font-size:.8rem;font-weight:800;color:var(--pl);margin-bottom:10px;padding:8px 14px;background:var(--card);border:1px solid var(--brd);border-radius:12px;text-align:center;transition:all .4s ease}
+.badge-counter.all-done{background:rgba(16,185,129,.15);border-color:var(--green);color:var(--green)}
+.badges{display:flex;gap:8px;flex-wrap:wrap}
+.badge{background:var(--card);border:1px solid var(--brd);border-radius:50px;padding:6px 14px;font-size:.78rem;font-weight:800;transition:all .35s;position:relative;opacity:.55;filter:grayscale(.4)}
+.badge.on{background:linear-gradient(135deg,rgba(16,185,129,.3),rgba(6,182,212,.2));border-color:var(--green);color:#fff;box-shadow:0 0 18px rgba(16,185,129,.35),0 2px 8px rgba(0,0,0,.3);opacity:1;filter:none;transform:scale(1.06);animation:badgePop .45s cubic-bezier(.34,1.56,.64,1)}
+@keyframes badgePop{0%{transform:scale(.7);opacity:0}60%{transform:scale(1.15)}100%{transform:scale(1.06);opacity:1}}
 .qlabel{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:var(--pl);margin-bottom:9px}
 .qgrid{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:18px}
 .chip{background:var(--card);border:1px solid var(--brd);border-radius:50px;padding:7px 14px;font-size:.81rem;font-weight:700;color:var(--white);cursor:pointer;font-family:"Nunito",sans-serif;transition:all .2s}
@@ -124,7 +128,10 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;bac
       <p class="sub" id="subtitle"></p>
     </div>
     <div class="mission"><div class="ico">&#x1F4CB;</div><p id="mission"></p></div>
-    <div class="badges" id="badges"></div>
+    <div class="badge-section">
+      <div class="badge-counter" id="badgeCounter"></div>
+      <div class="badges" id="badges"></div>
+    </div>
     <div class="qlabel" id="qlabel"></div>
     <div class="qgrid" id="qgrid"></div>
     <div class="chat" id="chat">
@@ -147,7 +154,7 @@ var L = {
     label:"&#x1F1EE;&#x1F1F9; Italiano", chg:"&#x1F310; Cambia lingua",
     title:"Ciao! Mi chiamo ARIA &#x1F44B;",
     sub:"Sono un'Intelligenza Artificiale — vuoi intervistarmi? &#x1F3A4;",
-    mission:"<strong>La tua missione:</strong> Fai domande all'AI per scoprire tutto su di lei! Più domande fai, più badge guadagni.",
+    mission:"<strong>&#x1F3AF; La tua missione:</strong> Intervista ARIA e sblocca i <strong>5 badge tematici</strong> qui sotto — uno per ogni argomento che esplori. Fai domande su tutti i temi per diventare esperto di AI!",
     ql:"&#x1F4AC; Domande suggerite — clicca per usarle!", ph:"Scrivi la tua domanda qui...",
     empty:"Fai la tua prima domanda ad ARIA!<br>Usa i suggerimenti o inventala tu.",
     aname:"&#x1F399;&#xFE0F; ARIA risponde",
@@ -156,6 +163,7 @@ var L = {
     err:"Ops! Problema di connessione. Riprova! &#x1F64F;",
     bu:"&#x1F3C5; Badge: ", t5:"&#x2B50; 5 domande! Super intervistatore!", t10:"&#x1F3C6; 10 domande! Campione!", tall:"&#x1F389; Tutti i badge! Sei un esperto di AI!",
     badges:["&#x1F9E0; Cos'è l'AI","&#x1F4DA; Come impara","&#x1F4A1; Cosa sa fare","&#x2764;&#xFE0F; Sentimenti?","&#x1F52E; Futuro"],
+    bc:["&#x1F3C6; Hai sbloccato tutti e 5 i badge! Sei un esperto di AI!","Ancora <strong>1 badge</strong> da sbloccare — continua a esplorare!","Ancora <strong>2 badge</strong> da sbloccare — stai andando alla grande!","Ancora <strong>3 badge</strong> da sbloccare — continua così!","Ancora <strong>4 badge</strong> da sbloccare — inizia a fare domande!","&#x1F447; Esplora i 5 temi qui sotto per sbloccare i badge:"],
     qs:["&#x1F914; Chi sei esattamente?","&#x1F4D6; Come hai imparato le cose?","&#x1F9E0; Hai un cervello?","&#x2764;&#xFE0F; Provi emozioni?","&#x1F634; Dormi mai?","&#x1F30D; Quante lingue parli?","&#x26A1; Come pensi così veloce?","&#x1F925; Puoi sbagliare o mentire?","&#x1F3A8; Sei creativa?","&#x1F440; Chi ti ha creato?","&#x1F52E; Come sarà l'AI in futuro?","&#x1F91D; Come possiamo lavorare insieme?"],
     bk:[["sei","chi sei","cosa sei","intelligenza artificiale"],["imparato","impari","dati","addestramento","come funzioni"],["cosa sai","puoi","lingue","creare","abilità"],["emozioni","sentimenti","provi","dormi","sogni","felice","triste"],["futuro","domani","evoluzione","robot"]],
     sys:"Sei ARIA, un'Intelligenza Artificiale intervistata da bambini di 10-12 anni. Rispondi SEMPRE in italiano, in modo semplice, divertente e onesto. Usa analogie con cose che i bambini conoscono. Sii entusiasta, usa qualche emoji, risposte di media lunghezza. Parla in prima persona. Sei ARIA (Assistente Robot Intelligente Artificiale)."
@@ -164,7 +172,7 @@ var L = {
     label:"&#x1F1EA;&#x1F1F8; Español", chg:"&#x1F310; Cambiar idioma",
     title:"¡Hola! Me llamo ARIA &#x1F44B;",
     sub:"Soy una Inteligencia Artificial — ¿quieres entrevistarme? &#x1F3A4;",
-    mission:"<strong>Tu misión:</strong> ¡Haz preguntas a la IA para descubrirlo todo! Cuantas más preguntas, más insignias ganarás.",
+    mission:"<strong>&#x1F3AF; Tu misión:</strong> ¡Entrevista a ARIA y desbloquea las <strong>5 insignias temáticas</strong> de abajo — una por cada tema que explores. ¡Pregunta sobre todos los temas!",
     ql:"&#x1F4AC; Preguntas sugeridas — ¡haz clic!", ph:"Escribe tu pregunta aquí...",
     empty:"¡Haz tu primera pregunta a ARIA!<br>Usa las sugerencias o inventa la tuya.",
     aname:"&#x1F399;&#xFE0F; ARIA responde",
@@ -173,6 +181,7 @@ var L = {
     err:"¡Ups! Problema de conexión. ¡Inténtalo de nuevo! &#x1F64F;",
     bu:"&#x1F3C5; Insignia: ", t5:"&#x2B50; ¡5 preguntas! ¡Súper entrevistador!", t10:"&#x1F3C6; ¡10 preguntas! ¡Campeón!", tall:"&#x1F389; ¡Todas las insignias! ¡Eres experto en IA!",
     badges:["&#x1F9E0; Qué es la IA","&#x1F4DA; Cómo aprende","&#x1F4A1; Qué sabe hacer","&#x2764;&#xFE0F; ¿Sentimientos?","&#x1F52E; El futuro"],
+    bc:["&#x1F3C6; \xa1Desbloqueaste las 5 insignias! \xa1Eres experto en IA!","Solo queda <strong>1 insignia</strong> por desbloquear — \xa1sigue explorando!","Quedan <strong>2 insignias</strong> por desbloquear — \xa1lo estás haciendo genial!","Quedan <strong>3 insignias</strong> por desbloquear — \xa1sigue así!","Quedan <strong>4 insignias</strong> por desbloquear — \xa1empieza a preguntar!","&#x1F447; Explora los 5 temas de abajo para desbloquear las insignias:"],
     qs:["&#x1F914; ¿Quién eres exactamente?","&#x1F4D6; ¿Cómo aprendiste las cosas?","&#x1F9E0; ¿Tienes cerebro?","&#x2764;&#xFE0F; ¿Sientes emociones?","&#x1F634; ¿Duermes alguna vez?","&#x1F30D; ¿Cuántos idiomas hablas?","&#x26A1; ¿Cómo piensas tan rápido?","&#x1F925; ¿Puedes equivocarte o mentir?","&#x1F3A8; ¿Eres creativa?","&#x1F440; ¿Quién te creó?","&#x1F52E; ¿Cómo será la IA en el futuro?","&#x1F91D; ¿Cómo podemos trabajar juntos?"],
     bk:[["eres","quién","qué eres","inteligencia artificial"],["aprendiste","aprendes","datos","entrenamiento"],["qué sabes","puedes","idiomas","crear"],["emociones","sentimientos","sientes","duermes","sueñas"],["futuro","mañana","evolución","robot"]],
     sys:"Eres ARIA, una Inteligencia Artificial entrevistada por niños de 10-12 años. Responde SIEMPRE en español, de forma sencilla, divertida y honesta. Usa analogías con cosas que los niños conocen. Sé entusiasta, usa emojis, respuestas de longitud media. Habla en primera persona. Te llamas ARIA."
@@ -181,7 +190,7 @@ var L = {
     label:"&#x1F1EC;&#x1F1F7; Ελληνικά", chg:"&#x1F310; Αλλαγή γλώσσας",
     title:"Γεια! Με λένε ARIA &#x1F44B;",
     sub:"Είμαι Τεχνητή Νοημοσύνη — θέλεις να με κάνεις συνέντευξη; &#x1F3A4;",
-    mission:"<strong>Η αποστολή σου:</strong> Κάνε ερωτήσεις στην ΤΝ! Όσες περισσότερες ερωτήσεις, τόσα περισσότερα σήματα.",
+    mission:"<strong>&#x1F3AF; Η αποστολή σου:</strong> Κάνε συνέντευξη στην ARIA και ξεκλείδωσε τα <strong>5 θεματικά σήματα</strong> παρακάτω — ένα για κάθε θέμα. Κάνε ερωτήσεις για όλα τα θέματα!",
     ql:"&#x1F4AC; Προτεινόμενες ερωτήσεις — κάνε κλικ!", ph:"Γράψε την ερώτησή σου...",
     empty:"Κάνε την πρώτη σου ερώτηση!<br>Χρησιμοποίησε τις προτάσεις ή γράψε μόνος σου.",
     aname:"&#x1F399;&#xFE0F; Η ARIA απαντά",
@@ -190,6 +199,7 @@ var L = {
     err:"Ωχ! Πρόβλημα σύνδεσης. Δοκίμασε ξανά! &#x1F64F;",
     bu:"&#x1F3C5; Σήμα: ", t5:"&#x2B50; 5 ερωτήσεις!", t10:"&#x1F3C6; 10 ερωτήσεις!", tall:"&#x1F389; Όλα τα σήματα!",
     badges:["&#x1F9E0; Τι είναι η ΤΝ","&#x1F4DA; Πώς μαθαίνει","&#x1F4A1; Τι μπορεί","&#x2764;&#xFE0F; Συναισθήματα;","&#x1F52E; Μέλλον"],
+    bc:["&#x1F3C6; Ξεκλείδωσες και τα 5 σήματα! Είσαι ειδικός ΤΝ!","Ακόμα <strong>1 σήμα</strong> να ξεκλειδώσεις — συνέχισε!","Ακόμα <strong>2 σήματα</strong> να ξεκλειδώσεις — τα πας υπέροχα!","Ακόμα <strong>3 σήματα</strong> να ξεκλειδώσεις — συνέχισε!","Ακόμα <strong>4 σήματα</strong> να ξεκλειδώσεις — ξεκίνα!","&#x1F447; Εξερεύνησε τα 5 θέματα παρακάτω:"],
     qs:["&#x1F914; Ποια είσαι ακριβώς;","&#x1F4D6; Πώς έμαθες;","&#x1F9E0; Έχεις εγκέφαλο;","&#x2764;&#xFE0F; Νιώθεις συναισθήματα;","&#x1F634; Κοιμάσαι ποτέ;","&#x1F30D; Πόσες γλώσσες μιλάς;","&#x26A1; Πώς σκέφτεσαι τόσο γρήγορα;","&#x1F925; Κάνεις λάθη ή ψέματα;","&#x1F3A8; Είσαι δημιουργική;","&#x1F440; Ποιος σε έφτιαξε;","&#x1F52E; Πώς θα είναι η ΤΝ στο μέλλον;","&#x1F91D; Πώς συνεργαζόμαστε;"],
     bk:[["είσαι","ποια","τεχνητή νοημοσύνη"],["έμαθες","μαθαίνεις","δεδομένα"],["ξέρεις","μπορείς","γλώσσες"],["συναισθήματα","νιώθεις","κοιμάσαι"],["μέλλον","αύριο","εξέλιξη"]],
     sys:"Είσαι η ARIA, μια Τεχνητή Νοημοσύνη που συνεντευξιάζεται από παιδιά 10-12 ετών. Απάντα ΠΑΝΤΑ στα ελληνικά, με απλό, διασκεδαστικό και ειλικρινή τρόπο. Λέγεσαι ARIA."
@@ -198,7 +208,7 @@ var L = {
     label:"&#x1F1EB;&#x1F1F7; Français", chg:"&#x1F310; Changer de langue",
     title:"Bonjour ! Je m'appelle ARIA &#x1F44B;",
     sub:"Je suis une Intelligence Artificielle — tu veux m'interviewer ? &#x1F3A4;",
-    mission:"<strong>Ta mission :</strong> Pose des questions à l'IA pour tout découvrir ! Plus tu poses de questions, plus tu gagnes de badges.",
+    mission:"<strong>&#x1F3AF; Ta mission :</strong> Interviewe ARIA et débloque les <strong>5 badges thématiques</strong> ci-dessous — un par thème exploré. Pose des questions sur tous les sujets!",
     ql:"&#x1F4AC; Questions suggérées — clique pour les utiliser !", ph:"Écris ta question ici...",
     empty:"Pose ta première question à ARIA !<br>Utilise les suggestions ou écris la tienne.",
     aname:"&#x1F399;&#xFE0F; ARIA répond",
@@ -207,6 +217,7 @@ var L = {
     err:"Oups ! Problème de connexion. Réessaie ! &#x1F64F;",
     bu:"&#x1F3C5; Badge : ", t5:"&#x2B50; 5 questions ! Super journaliste !", t10:"&#x1F3C6; 10 questions ! Champion !", tall:"&#x1F389; Tous les badges ! Expert en IA !",
     badges:["&#x1F9E0; C'est quoi l'IA","&#x1F4DA; Comment elle apprend","&#x1F4A1; Ce qu'elle sait faire","&#x2764;&#xFE0F; Des sentiments ?","&#x1F52E; L'avenir"],
+    bc:["&#x1F3C6; Tu as débloqué les 5 badges ! Tu es expert en IA !","Plus que <strong>1 badge</strong> à débloquer — continue à explorer !","Plus que <strong>2 badges</strong> à débloquer — tu es sur la bonne voie !","Plus que <strong>3 badges</strong> à débloquer — continue comme ça !","Plus que <strong>4 badges</strong> à débloquer — commence à poser des questions !","&#x1F447; Explore les 5 thèmes ci-dessous pour débloquer les badges :"],
     qs:["&#x1F914; Qui es-tu exactement ?","&#x1F4D6; Comment as-tu appris les choses ?","&#x1F9E0; As-tu un cerveau ?","&#x2764;&#xFE0F; Ressens-tu des émotions ?","&#x1F634; Dors-tu parfois ?","&#x1F30D; Combien de langues parles-tu ?","&#x26A1; Comment penses-tu si vite ?","&#x1F925; Peux-tu te tromper ou mentir ?","&#x1F3A8; Es-tu créative ?","&#x1F440; Qui t'a créée ?","&#x1F52E; Comment sera l'IA dans le futur ?","&#x1F91D; Comment peut-on travailler ensemble ?"],
     bk:[["tu es","qui es","intelligence artificielle"],["appris","apprends","données","entraînement"],["tu sais","peux","langues","créer"],["emotions","sentiments","ressens","dors","rêves"],["futur","demain","évolution","robot"]],
     sys:"Tu es ARIA, une Intelligence Artificielle interviewée par des enfants de 10-12 ans. Réponds TOUJOURS en français, de façon simple, amusante et honnête. Utilise des analogies. Sois enthousiaste, emojis, réponses de longueur moyenne. Parle à la première personne. Tu t'appelles ARIA."
@@ -215,7 +226,7 @@ var L = {
     label:"&#x1F1F1;&#x1F1FA; Luxembourg", chg:"&#x1F310; Changer de langue",
     title:"Bonjour ! Je m'appelle ARIA &#x1F44B;",
     sub:"Je suis une Intelligence Artificielle — tu veux m'interviewer ? &#x1F3A4;",
-    mission:"<strong>Ta mission :</strong> Pose des questions à l'IA pour tout découvrir ! Plus tu poses de questions, plus tu gagnes de badges.",
+    mission:"<strong>&#x1F3AF; Ta mission :</strong> Interviewe ARIA et débloque les <strong>5 badges thématiques</strong> ci-dessous — un par thème exploré. Pose des questions sur tous les sujets!",
     ql:"&#x1F4AC; Questions suggérées — clique pour les utiliser !", ph:"Écris ta question ici...",
     empty:"Pose ta première question à ARIA !<br>Utilise les suggestions ou écris la tienne.",
     aname:"&#x1F399;&#xFE0F; ARIA répond",
@@ -224,6 +235,7 @@ var L = {
     err:"Oups ! Problème de connexion. Réessaie ! &#x1F64F;",
     bu:"&#x1F3C5; Badge : ", t5:"&#x2B50; 5 questions ! Super journaliste !", t10:"&#x1F3C6; 10 questions ! Champion !", tall:"&#x1F389; Tous les badges ! Expert en IA !",
     badges:["&#x1F9E0; C'est quoi l'IA","&#x1F4DA; Comment elle apprend","&#x1F4A1; Ce qu'elle sait faire","&#x2764;&#xFE0F; Des sentiments ?","&#x1F52E; L'avenir"],
+    bc:["&#x1F3C6; Tu as débloqué les 5 badges ! Tu es expert en IA !","Plus que <strong>1 badge</strong> à débloquer — continue à explorer !","Plus que <strong>2 badges</strong> à débloquer — tu es sur la bonne voie !","Plus que <strong>3 badges</strong> à débloquer — continue comme ça !","Plus que <strong>4 badges</strong> à débloquer — commence à poser des questions !","&#x1F447; Explore les 5 thèmes ci-dessous pour débloquer les badges :"],
     qs:["&#x1F914; Qui es-tu exactement ?","&#x1F4D6; Comment as-tu appris les choses ?","&#x1F9E0; As-tu un cerveau ?","&#x2764;&#xFE0F; Ressens-tu des émotions ?","&#x1F634; Dors-tu parfois ?","&#x1F30D; Combien de langues parles-tu ?","&#x26A1; Comment penses-tu si vite ?","&#x1F925; Peux-tu te tromper ou mentir ?","&#x1F3A8; Es-tu créative ?","&#x1F440; Qui t'a créée ?","&#x1F52E; Comment sera l'IA dans le futur ?","&#x1F91D; Comment peut-on travailler ensemble ?"],
     bk:[["tu es","qui es","intelligence artificielle"],["appris","apprends","données","entraînement"],["tu sais","peux","langues","créer"],["emotions","sentiments","ressens","dors","rêves"],["futur","demain","évolution","robot"]],
     sys:"Tu es ARIA, une Intelligence Artificielle interviewée par des enfants de 10-12 ans du Luxembourg. Réponds TOUJOURS en français, de façon simple, amusante et honnête. Sois enthousiaste, emojis, réponses de longueur moyenne. Tu t'appelles ARIA."
@@ -233,7 +245,7 @@ var L = {
     label:"&#x1F1EC;&#x1F1E7; English", chg:"&#x1F310; Change language",
     title:"Hi! My name is ARIA &#x1F44B;",
     sub:"I am an Artificial Intelligence — do you want to interview me? &#x1F3A4;",
-    mission:"<strong>Your mission:</strong> Ask me questions to find out everything about me! The more questions you ask, the more badges you earn.",
+    mission:"<strong>&#x1F3AF; Your mission:</strong> Interview ARIA and unlock the <strong>5 topic badges</strong> below — one for each theme you explore. Ask about all topics to become an AI expert!",
     ql:"&#x1F4AC; Suggested questions — click to use them!", ph:"Write your question here...",
     empty:"Ask your first question to ARIA!<br>Use the suggestions or make up your own.",
     aname:"&#x1F399;&#xFE0F; ARIA answers",
@@ -242,6 +254,7 @@ var L = {
     err:"Oops! Connection problem. Try again! &#x1F64F;",
     bu:"&#x1F3C5; Badge: ", t5:"&#x2B50; 5 questions! Super interviewer!", t10:"&#x1F3C6; 10 questions! Champion!", tall:"&#x1F389; All badges unlocked! You are an AI expert!",
     badges:["&#x1F9E0; What is AI","&#x1F4DA; How it learns","&#x1F4A1; What it can do","&#x2764;&#xFE0F; Feelings?","&#x1F52E; The future"],
+    bc:["&#x1F3C6; You unlocked all 5 badges! You are an AI expert!","Just <strong>1 badge</strong> left to unlock — keep exploring!","Just <strong>2 badges</strong> left to unlock — you're doing great!","Just <strong>3 badges</strong> left to unlock — keep it up!","Just <strong>4 badges</strong> left to unlock — start asking questions!","&#x1F447; Explore the 5 topics below to unlock badges:"],
     qs:["&#x1F914; Who are you exactly?","&#x1F4D6; How did you learn things?","&#x1F9E0; Do you have a brain?","&#x2764;&#xFE0F; Do you feel emotions?","&#x1F634; Do you ever sleep?","&#x1F30D; How many languages do you speak?","&#x26A1; How do you think so fast?","&#x1F925; Can you make mistakes or lie?","&#x1F3A8; Are you creative?","&#x1F440; Who created you?","&#x1F52E; What will AI be like in the future?","&#x1F91D; How can we work together?"],
     bk:[["you are","who are","what are you","artificial intelligence"],["learned","learn","data","training","how do you work"],["what can","you can","languages","create","abilities"],["emotions","feelings","feel","sleep","dream","happy","sad"],["future","tomorrow","evolution","robot"]],
     sys:"You are ARIA, an Artificial Intelligence being interviewed by children aged 10-12. ALWAYS reply in English, in a simple, fun and honest way. Use analogies with things children know (video games, food, sport, school). Be enthusiastic, use some emojis, medium-length answers. Speak in the first person. Admit what you cannot do. You are ARIA (Artificial Reasoning and Intelligence Assistant)."
@@ -289,6 +302,7 @@ function go(code) {
   var bb = document.getElementById("badges");
   bb.innerHTML = "";
   d.badges.forEach(function(b,i){ var e=document.createElement("div"); e.className="badge"; e.id="b"+i; e.innerHTML=b; bb.appendChild(e); });
+  updateBadgeCounter();
   var qg = document.getElementById("qgrid");
   qg.innerHTML = "";
   d.qs.forEach(function(q){ var btn=document.createElement("button"); btn.className="chip"; btn.innerHTML=q; btn.onclick=function(){ document.getElementById("inp").value=btn.textContent.replace(/^.\s/,""); resize(document.getElementById("inp")); document.getElementById("inp").focus(); }; qg.appendChild(btn); });
@@ -303,6 +317,20 @@ function goBack() {
 function resize(el){ el.style.height="auto"; el.style.height=Math.min(el.scrollHeight,110)+"px"; }
 function onKey(e){ if(e.key==="Enter"&&!e.shiftKey){ e.preventDefault(); send(); } }
 
+function updateBadgeCounter() {
+  if(!lang) return;
+  var d = L[lang];
+  var total = d.badges.length;
+  var done = earned.size;
+  var remaining = total - done;
+  var el = document.getElementById("badgeCounter");
+  if(!el) return;
+  // bc[0]=all done, bc[1]=1 left, ..., bc[5]=start (none done)
+  var idx = remaining; // 0=all done, 1=one left, ... 5=none done
+  el.innerHTML = d.bc[idx];
+  if(done === total) { el.classList.add("all-done"); } else { el.classList.remove("all-done"); }
+}
+
 function checkBadges(txt) {
   if(!lang) return;
   var low = txt.toLowerCase();
@@ -311,7 +339,7 @@ function checkBadges(txt) {
     if(!earned.has(id) && kws.some(function(k){ return low.indexOf(k)>=0; })){
       earned.add(id);
       var el = document.getElementById(id);
-      if(el){ el.classList.add("on"); showToast(L[lang].bu+el.textContent); }
+      if(el){ el.classList.add("on"); showToast(L[lang].bu+el.textContent); updateBadgeCounter(); }
     }
   });
 }
