@@ -101,6 +101,18 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
 .sbtn:hover:not(:disabled){transform:scale(1.08);box-shadow:0 4px 18px rgba(124,58,237,.5)}
 .sbtn:disabled{opacity:.4;cursor:not-allowed}
 
+/* STATUS BANNER */
+#statusBanner{margin-top:4px;padding:14px 22px;border-radius:16px;font-size:.92rem;font-weight:800;text-align:center;max-width:440px;width:100%;line-height:1.5;transition:all .4s ease}
+#statusBanner.checking{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.4)}
+#statusBanner.online{background:rgba(16,185,129,.15);border:2px solid var(--green);color:#fff;box-shadow:0 0 24px rgba(16,185,129,.2);animation:statusPop .5s cubic-bezier(.34,1.56,.64,1)}
+#statusBanner.offline{background:rgba(239,68,68,.12);border:2px solid #ef4444;color:#fff;box-shadow:0 0 24px rgba(239,68,68,.15);animation:statusPop .5s cubic-bezier(.34,1.56,.64,1)}
+@keyframes statusPop{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
+#statusBanner .sdot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:middle}
+#statusBanner.online .sdot{background:var(--green);box-shadow:0 0 8px var(--green);animation:blink 1.5s ease-in-out infinite}
+#statusBanner.offline .sdot{background:#ef4444}
+#statusBanner.checking .sdot{background:rgba(255,255,255,.3);animation:blink 1s ease-in-out infinite}
+#statusBanner a{color:var(--yellow);text-decoration:underline}
+
 /* TOAST */
 #toast{position:fixed;top:18px;left:50%;transform:translateX(-50%) translateY(-80px);background:linear-gradient(135deg,var(--purple),var(--teal));color:#fff;padding:10px 20px;border-radius:50px;font-weight:800;font-size:.85rem;z-index:9999;transition:transform .4s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;pointer-events:none}
 #toast.on{transform:translateX(-50%) translateY(0)}
@@ -120,6 +132,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
     <button class="lang-btn" onclick="go('fr')"><span class="flag">🇫🇷</span><strong>Français</strong><span class="sub">France</span></button>
     <button class="lang-btn" onclick="go('lb')"><span class="flag">🇱🇺</span><strong>Français</strong><span class="sub">Luxembourg</span></button>
   </div>
+  <div id="statusBanner" class="checking"><span class="sdot"></span>Sto verificando se ARIA è disponibile…</div>
 </div>
 
 <div id="app">
@@ -369,7 +382,27 @@ async function send(){
     if(earned.size===d.badges.length)toast(d.tall);
   }catch(e){rmTyping();addMsg('ai',L[lang].err);}
   btn.disabled=false;inp.disabled=false;inp.focus();
+async function checkStatus(){
+  const b=document.getElementById('statusBanner');
+  const btns=document.querySelectorAll('.lang-btn');
+  try{
+    const res=await fetch('/api/chat',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:10,system:'rispondi ok',messages:[{role:'user',content:'ok'}]})
+    });
+    const data=await res.json();
+    if(data.content?.[0]?.text){
+      b.className='online';
+      b.innerHTML='<span class="sdot"></span>✅ ARIA è pronta per essere intervistata!';
+    } else { throw new Error('no content'); }
+  }catch(e){
+    b.className='offline';
+    b.innerHTML='<span class="sdot"></span>😴 ARIA non c\'è in questo momento.<br>Per prenotare una sessione scrivi a <a href="mailto:info@innov2e.it">info@innov2e.it</a>';
+    btns.forEach(b=>b.disabled=true);
+  }
 }
+checkStatus();
 </script>
 </body>
 </html>
