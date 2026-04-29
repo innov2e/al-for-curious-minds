@@ -50,13 +50,9 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;bac
 .mission .ico{font-size:22px;flex-shrink:0}
 .mission p{font-size:.85rem;line-height:1.5}
 .mission strong{color:var(--yellow)}
-.badge-section{margin-bottom:18px}
-.badge-counter{font-size:.8rem;font-weight:800;color:var(--pl);margin-bottom:10px;padding:8px 14px;background:var(--card);border:1px solid var(--brd);border-radius:12px;text-align:center;transition:all .4s ease}
-.badge-counter.all-done{background:rgba(16,185,129,.15);border-color:var(--green);color:var(--green)}
-.badges{display:flex;gap:8px;flex-wrap:wrap}
-.badge{background:var(--card);border:1px solid var(--brd);border-radius:50px;padding:6px 14px;font-size:.78rem;font-weight:800;transition:all .35s;position:relative;opacity:.55;filter:grayscale(.4)}
-.badge.on{background:linear-gradient(135deg,rgba(16,185,129,.3),rgba(6,182,212,.2));border-color:var(--green);color:#fff;box-shadow:0 0 18px rgba(16,185,129,.35),0 2px 8px rgba(0,0,0,.3);opacity:1;filter:none;transform:scale(1.06);animation:badgePop .45s cubic-bezier(.34,1.56,.64,1)}
-@keyframes badgePop{0%{transform:scale(.7);opacity:0}60%{transform:scale(1.15)}100%{transform:scale(1.06);opacity:1}}
+.badges{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:16px}
+.badge{background:var(--card);border:1px solid var(--brd);border-radius:50px;padding:5px 12px;font-size:.74rem;font-weight:800;transition:all .3s}
+.badge.on{background:rgba(16,185,129,.2);border-color:var(--green);color:var(--green);box-shadow:0 0 14px rgba(16,185,129,.2)}
 .qlabel{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:var(--pl);margin-bottom:9px}
 .qgrid{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:18px}
 .chip{background:var(--card);border:1px solid var(--brd);border-radius:50px;padding:7px 14px;font-size:.81rem;font-weight:700;color:var(--white);cursor:pointer;font-family:"Nunito",sans-serif;transition:all .2s}
@@ -97,13 +93,83 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;bac
 #toast{position:fixed;top:18px;left:50%;transform:translateX(-50%) translateY(-80px);background:linear-gradient(135deg,var(--purple),var(--teal));color:#fff;padding:10px 20px;border-radius:50px;font-weight:800;font-size:.85rem;z-index:9999;transition:transform .4s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;pointer-events:none}
 #toast.on{transform:translateX(-50%) translateY(0)}
 @media(max-width:480px){.hdr h1{font-size:1.5rem}.bbl{max-width:86%}.lang-grid{grid-template-columns:repeat(2,1fr);max-width:290px}}
+.badge-section{margin-bottom:18px}
+.badge-counter{font-size:.8rem;font-weight:800;color:var(--pl);margin-bottom:10px;padding:8px 14px;background:var(--card);border:1px solid var(--brd);border-radius:12px;text-align:center;transition:all .4s ease}
+.badge-counter.all-done{background:rgba(16,185,129,.15);border-color:var(--green);color:var(--green)}
+.badges{display:flex;gap:8px;flex-wrap:wrap}
+.badge{background:var(--card);border:1px solid var(--brd);border-radius:50px;padding:6px 14px;font-size:.78rem;font-weight:800;transition:all .35s;opacity:.55;filter:grayscale(.4)}
+.badge.on{background:linear-gradient(135deg,rgba(16,185,129,.3),rgba(6,182,212,.2));border-color:var(--green);color:#fff;box-shadow:0 0 18px rgba(16,185,129,.35),0 2px 8px rgba(0,0,0,.3);opacity:1;filter:none;transform:scale(1.06);animation:badgePop .45s cubic-bezier(.34,1.56,.64,1)}
+@keyframes badgePop{0%{transform:scale(.7);opacity:0}60%{transform:scale(1.15)}100%{transform:scale(1.06);opacity:1}}
+.depth-meter{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--card);border:1px solid var(--brd);border-radius:14px;margin-bottom:14px}
+.depth-label{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:var(--pl);white-space:nowrap}
+.depth-stars{display:flex;gap:4px}
+.dstar{font-size:1.1rem;transition:all .4s cubic-bezier(.34,1.56,.64,1);filter:grayscale(1);opacity:.3}
+.dstar.on{filter:none;opacity:1;animation:starPop .4s cubic-bezier(.34,1.56,.64,1)}
+@keyframes starPop{0%{transform:scale(0) rotate(-30deg)}60%{transform:scale(1.3) rotate(5deg)}100%{transform:scale(1) rotate(0)}}
+.depth-tag{font-size:.72rem;font-weight:800;border-radius:50px;padding:3px 10px;background:rgba(255,255,255,.08);color:rgba(255,255,255,.4);transition:all .4s ease;white-space:nowrap}
+.depth-tag.d1{background:rgba(251,191,36,.15);color:var(--yellow)}
+.depth-tag.d2{background:rgba(6,182,212,.15);color:var(--teal)}
+.depth-tag.d3{background:rgba(16,185,129,.2);color:var(--green);box-shadow:0 0 12px rgba(16,185,129,.2)}
+.hint-inner{background:linear-gradient(135deg,rgba(124,58,237,.25),rgba(6,182,212,.15));border:1px solid rgba(124,58,237,.4);border-radius:16px;border-bottom-left-radius:4px;padding:11px 15px}
+.hint-label{font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:var(--pl);margin-bottom:6px}
+.hint-questions{display:flex;flex-direction:column;gap:5px}
+.hint-q{font-size:.83rem;font-weight:700;color:var(--white);cursor:pointer;padding:4px 8px;border-radius:8px;transition:background .15s}
+.hint-q:hover{background:rgba(124,58,237,.3)}
+/* ── TEACHER BUTTON ── */
+#teacherBtn{position:fixed;bottom:80px;right:16px;width:44px;height:44px;border-radius:50%;background:rgba(124,58,237,.3);border:1px solid rgba(124,58,237,.5);color:var(--pl);font-size:1.2rem;cursor:pointer;display:none;align-items:center;justify-content:center;z-index:200;transition:all .2s}
+#teacherBtn:hover{background:rgba(124,58,237,.6);transform:scale(1.1)}
+#pdfBtn{position:fixed;bottom:80px;right:68px;width:44px;height:44px;border-radius:50%;background:rgba(6,182,212,.3);border:1px solid rgba(6,182,212,.5);color:var(--teal);font-size:1.2rem;cursor:pointer;display:none;align-items:center;justify-content:center;z-index:200;transition:all .2s}
+#pdfBtn:hover{background:rgba(6,182,212,.6);transform:scale(1.1)}
+
+/* ── PASSWORD MODAL ── */
+#pwModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:2000;align-items:center;justify-content:center;padding:20px}
+#pwModal.on{display:flex}
+.pw-box{background:var(--bg2);border:1px solid var(--brd);border-radius:20px;padding:28px 24px;max-width:340px;width:100%;text-align:center}
+.pw-box h2{font-family:"Fredoka One",cursive;font-size:1.4rem;margin-bottom:6px;color:var(--white)}
+.pw-box p{font-size:.85rem;color:var(--pl);margin-bottom:18px}
+.pw-input{width:100%;background:var(--card);border:2px solid var(--brd);border-radius:12px;padding:11px 14px;color:var(--white);font-family:"Nunito",sans-serif;font-size:1rem;font-weight:700;text-align:center;letter-spacing:3px;outline:none;margin-bottom:8px}
+.pw-input:focus{border-color:var(--purple)}
+.pw-input.err{border-color:#ef4444;animation:shake .3s ease}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.pw-err{font-size:.8rem;color:#ef4444;margin-bottom:12px;min-height:18px}
+.pw-btns{display:flex;gap:8px}
+.pw-cancel{flex:1;background:var(--card);border:1px solid var(--brd);border-radius:10px;padding:10px;color:var(--pl);font-family:"Nunito",sans-serif;font-weight:800;cursor:pointer}
+.pw-ok{flex:1;background:linear-gradient(135deg,var(--purple),var(--teal));border:none;border-radius:10px;padding:10px;color:#fff;font-family:"Nunito",sans-serif;font-weight:800;cursor:pointer}
+
+/* ── TEACHER PANEL ── */
+#teacherPanel{display:none;position:fixed;inset:0;background:var(--bg);z-index:1500;overflow-y:auto}
+#teacherPanel.on{display:block}
+.tp-header{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;background:var(--bg2);border-bottom:1px solid var(--brd);position:sticky;top:0;z-index:10}
+.tp-title{font-family:"Fredoka One",cursive;font-size:1.4rem;background:linear-gradient(135deg,var(--yellow),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.tp-close{background:var(--card);border:1px solid var(--brd);border-radius:50px;padding:7px 16px;color:var(--pl);font-family:"Nunito",sans-serif;font-weight:800;cursor:pointer;font-size:.85rem}
+.tp-body{max-width:780px;margin:0 auto;padding:20px 16px 40px}
+.tp-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
+.tp-stat{background:var(--card);border:1px solid var(--brd);border-radius:14px;padding:16px;text-align:center}
+.tp-stat .ts-val{font-family:"Fredoka One",cursive;font-size:2rem;background:linear-gradient(135deg,var(--yellow),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.tp-stat .ts-lbl{font-size:.75rem;font-weight:800;color:var(--pl);text-transform:uppercase;letter-spacing:1px;margin-top:4px}
+.tp-badges{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
+.tp-badge{border-radius:50px;padding:6px 14px;font-size:.78rem;font-weight:800;border:1px solid var(--brd);background:var(--card);color:rgba(255,255,255,.4)}
+.tp-badge.earned{background:rgba(16,185,129,.2);border-color:var(--green);color:var(--green)}
+.tp-section{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:var(--pl);margin-bottom:12px}
+.tp-depth-bar{height:8px;background:rgba(255,255,255,.1);border-radius:8px;overflow:hidden;margin-bottom:20px}
+.tp-depth-fill{height:100%;background:linear-gradient(90deg,var(--yellow),var(--teal),var(--green));border-radius:8px;transition:width .6s ease}
+.tp-convo{display:flex;flex-direction:column;gap:12px}
+.tp-msg{border-radius:14px;padding:12px 16px;font-size:.88rem;line-height:1.5}
+.tp-msg.user{background:linear-gradient(135deg,rgba(251,191,36,.15),rgba(249,115,22,.1));border:1px solid rgba(251,191,36,.25)}
+.tp-msg.ai{background:var(--card);border:1px solid var(--brd)}
+.tp-msg .tp-who{font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px}
+.tp-msg.user .tp-who{color:var(--yellow)}
+.tp-msg.ai .tp-who{color:var(--teal)}
+.tp-reset{margin-top:24px;background:rgba(239,68,68,.15);border:1px solid #ef4444;border-radius:12px;padding:12px 20px;color:#ef4444;font-family:"Nunito",sans-serif;font-weight:800;cursor:pointer;width:100%;font-size:.9rem}
+.tp-reset:hover{background:rgba(239,68,68,.25)}
+
 </style>
 </head>
 <body>
 
 <div id="langScreen">
   <div class="logo">&#x1F916;</div>
-  <h1>Scegli la lingua / Choose your language<br>Elige el idioma / &#917;&#960;&#953;&#955;&#941;&#958;&#964;&#949;</h1>
+  <h1>Scegli la lingua / Choisissez<br>Elige el idioma / &#917;&#960;&#953;&#955;&#941;&#958;&#964;&#949;</h1>
   <div class="lang-grid">
     <button class="lang-btn" id="btn-it" onclick="go('it')"><span class="flag">&#x1F1EE;&#x1F1F9;</span><strong>Italiano</strong><span class="sub">Italia</span></button>
     <button class="lang-btn" id="btn-es" onclick="go('es')"><span class="flag">&#x1F1EA;&#x1F1F8;</span><strong>Espa&#xF1;ol</strong><span class="sub">Espa&#xF1;a</span></button>
@@ -128,25 +194,76 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;bac
       <p class="sub" id="subtitle"></p>
     </div>
     <div class="mission"><div class="ico">&#x1F4CB;</div><p id="mission"></p></div>
+    <div class="depth-meter" id="depthMeter">
+      <span class="depth-label" id="depthLabel">Livello</span>
+      <div class="depth-stars" id="depthStars">
+        <span class="dstar">&#x2B50;</span><span class="dstar">&#x2B50;</span>
+        <span class="dstar">&#x2B50;</span><span class="dstar">&#x2B50;</span>
+        <span class="dstar">&#x2B50;</span>
+      </div>
+      <span class="depth-tag" id="depthTag"></span>
+    </div>
     <div class="badge-section">
       <div class="badge-counter" id="badgeCounter"></div>
       <div class="badges" id="badges"></div>
     </div>
     <div class="qlabel" id="qlabel"></div>
     <div class="qgrid" id="qgrid"></div>
+    <div id="hintBubble" style="display:none;margin:0 0 14px 48px;animation:fadeIn .4s ease"><div class="hint-inner"><div class="hint-label" id="hintLabel"></div><div class="hint-questions" id="hintQuestions"></div></div></div>
     <div class="chat" id="chat">
       <div class="empty"><div class="big">&#x1F3A4;</div><span id="emptyTxt"></span></div>
     </div>
   </div>
   <div class="iarea">
     <div class="iwrap">
-      <textarea id="inp" rows="1" onkeydown="onKey(event)" oninput="resize(this)"></textarea>
+      <textarea id="inp" rows="1" onkeydown="onKey(event)" oninput="resize(this);clearHint()"></textarea>
       <button class="sbtn" id="sbtn" onclick="send()">&#x1F680;</button>
     </div>
   </div>
 </div>
 
 <div id="toast"></div>
+
+<!-- TEACHER + PDF BUTTONS -->
+<button id="pdfBtn" title="Download PDF" onclick="generatePDF()">&#x1F4BE;</button>
+<button id="teacherBtn" title="Teacher mode" onclick="openTeacherModal()">&#x1F9D1;&#x200D;&#x1F3EB;</button>
+
+<!-- PASSWORD MODAL -->
+<div id="pwModal">
+  <div class="pw-box">
+    <h2>&#x1F512; Modalit&#xe0; Insegnante</h2>
+    <p>Inserisci la password per accedere al pannello</p>
+    <input class="pw-input" id="pwInput" type="password" placeholder="&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;" onkeydown="if(event.key==='Enter')checkPw()">
+    <div class="pw-err" id="pwErr"></div>
+    <div class="pw-btns">
+      <button class="pw-cancel" onclick="closePwModal()">Annulla</button>
+      <button class="pw-ok" onclick="checkPw()">Entra</button>
+    </div>
+  </div>
+</div>
+
+<!-- TEACHER PANEL -->
+<div id="teacherPanel">
+  <div class="tp-header">
+    <span class="tp-title">&#x1F9D1;&#x200D;&#x1F3EB; Pannello Insegnante</span>
+    <button class="tp-close" onclick="closeTeacherPanel()">&#x2715; Chiudi</button>
+  </div>
+  <div class="tp-body">
+    <div class="tp-stats">
+      <div class="tp-stat"><div class="ts-val" id="tpQCount">0</div><div class="ts-lbl">Domande</div></div>
+      <div class="tp-stat"><div class="ts-val" id="tpBadges">0/5</div><div class="ts-lbl">Badge</div></div>
+      <div class="tp-stat"><div class="ts-val" id="tpStars">0&#x2605;</div><div class="ts-lbl">Profondit&#xe0;</div></div>
+    </div>
+    <div class="tp-section">&#x1F3AF; Badge sbloccati</div>
+    <div class="tp-badges" id="tpBadgeList"></div>
+    <div class="tp-section">&#x26A1; Livello profondit&#xe0;</div>
+    <div class="tp-depth-bar"><div class="tp-depth-fill" id="tpDepthFill"></div></div>
+    <div class="tp-section">&#x1F4AC; Conversazione completa</div>
+    <div class="tp-convo" id="tpConvo"></div>
+    <button class="tp-reset" onclick="resetSession()">&#x1F504; Resetta sessione (nuovo bambino)</button>
+  </div>
+</div>
+
 
 <script>
 var L = {
@@ -166,7 +283,8 @@ var L = {
     bc:["&#x1F3C6; Hai sbloccato tutti e 5 i badge! Sei un esperto di AI!","Ancora <strong>1 badge</strong> da sbloccare — continua a esplorare!","Ancora <strong>2 badge</strong> da sbloccare — stai andando alla grande!","Ancora <strong>3 badge</strong> da sbloccare — continua così!","Ancora <strong>4 badge</strong> da sbloccare — inizia a fare domande!","&#x1F447; Esplora i 5 temi qui sotto per sbloccare i badge:"],
     qs:["&#x1F914; Chi sei esattamente?","&#x1F4D6; Come hai imparato le cose?","&#x1F9E0; Hai un cervello?","&#x2764;&#xFE0F; Provi emozioni?","&#x1F634; Dormi mai?","&#x1F30D; Quante lingue parli?","&#x26A1; Come pensi così veloce?","&#x1F925; Puoi sbagliare o mentire?","&#x1F3A8; Sei creativa?","&#x1F440; Chi ti ha creato?","&#x1F52E; Come sarà l'AI in futuro?","&#x1F91D; Come possiamo lavorare insieme?"],
     bk:[["sei","chi sei","cosa sei","intelligenza artificiale"],["imparato","impari","dati","addestramento","come funzioni"],["cosa sai","puoi","lingue","creare","abilità"],["emozioni","sentimenti","provi","dormi","sogni","felice","triste"],["futuro","domani","evoluzione","robot"]],
-    sys:"Sei ARIA, un'Intelligenza Artificiale intervistata da bambini di 10-12 anni. Rispondi SEMPRE in italiano, in modo semplice, divertente e onesto. Usa analogie con cose che i bambini conoscono. Sii entusiasta, usa qualche emoji, risposte di media lunghezza. Parla in prima persona. Sei ARIA (Assistente Robot Intelligente Artificiale)."
+    sys:"Sei ARIA, un'Intelligenza Artificiale intervistata da bambini di 10-12 anni. Rispondi SEMPRE in italiano, in modo semplice, divertente e onesto. Usa analogie con cose che i bambini conoscono. Sii entusiasta, usa qualche emoji, risposte di media lunghezza. Parla in prima persona. Sei ARIA (Assistente Robot Intelligente Artificiale).",
+    depthLabel:"Livello",depthTags:["Inizia!","Superficiale","Curioso","Esperto"],hintLabel:"Puoi chiedere…"
   },
   es: {
     label:"&#x1F1EA;&#x1F1F8; Español", chg:"&#x1F310; Cambiar idioma",
@@ -181,16 +299,17 @@ var L = {
     err:"¡Ups! Problema de conexión. ¡Inténtalo de nuevo! &#x1F64F;",
     bu:"&#x1F3C5; Insignia: ", t5:"&#x2B50; ¡5 preguntas! ¡Súper entrevistador!", t10:"&#x1F3C6; ¡10 preguntas! ¡Campeón!", tall:"&#x1F389; ¡Todas las insignias! ¡Eres experto en IA!",
     badges:["&#x1F9E0; Qué es la IA","&#x1F4DA; Cómo aprende","&#x1F4A1; Qué sabe hacer","&#x2764;&#xFE0F; ¿Sentimientos?","&#x1F52E; El futuro"],
-    bc:["&#x1F3C6; \xa1Desbloqueaste las 5 insignias! \xa1Eres experto en IA!","Solo queda <strong>1 insignia</strong> por desbloquear — \xa1sigue explorando!","Quedan <strong>2 insignias</strong> por desbloquear — \xa1lo estás haciendo genial!","Quedan <strong>3 insignias</strong> por desbloquear — \xa1sigue así!","Quedan <strong>4 insignias</strong> por desbloquear — \xa1empieza a preguntar!","&#x1F447; Explora los 5 temas de abajo para desbloquear las insignias:"],
+    bc:["&#x1F3C6; ¡Desbloqueaste las 5 insignias! ¡Eres experto en IA!","Solo queda <strong>1 insignia</strong> por desbloquear — ¡sigue explorando!","Quedan <strong>2 insignias</strong> por desbloquear — ¡lo estás haciendo genial!","Quedan <strong>3 insignias</strong> por desbloquear — ¡sigue así!","Quedan <strong>4 insignias</strong> por desbloquear — ¡empieza a preguntar!","&#x1F447; Explora los 5 temas de abajo para desbloquear las insignias:"],
     qs:["&#x1F914; ¿Quién eres exactamente?","&#x1F4D6; ¿Cómo aprendiste las cosas?","&#x1F9E0; ¿Tienes cerebro?","&#x2764;&#xFE0F; ¿Sientes emociones?","&#x1F634; ¿Duermes alguna vez?","&#x1F30D; ¿Cuántos idiomas hablas?","&#x26A1; ¿Cómo piensas tan rápido?","&#x1F925; ¿Puedes equivocarte o mentir?","&#x1F3A8; ¿Eres creativa?","&#x1F440; ¿Quién te creó?","&#x1F52E; ¿Cómo será la IA en el futuro?","&#x1F91D; ¿Cómo podemos trabajar juntos?"],
     bk:[["eres","quién","qué eres","inteligencia artificial"],["aprendiste","aprendes","datos","entrenamiento"],["qué sabes","puedes","idiomas","crear"],["emociones","sentimientos","sientes","duermes","sueñas"],["futuro","mañana","evolución","robot"]],
-    sys:"Eres ARIA, una Inteligencia Artificial entrevistada por niños de 10-12 años. Responde SIEMPRE en español, de forma sencilla, divertida y honesta. Usa analogías con cosas que los niños conocen. Sé entusiasta, usa emojis, respuestas de longitud media. Habla en primera persona. Te llamas ARIA."
+    sys:"Eres ARIA, una Inteligencia Artificial entrevistada por niños de 10-12 años. Responde SIEMPRE en español, de forma sencilla, divertida y honesta. Usa analogías con cosas que los niños conocen. Sé entusiasta, usa emojis, respuestas de longitud media. Habla en primera persona. Te llamas ARIA.",
+    depthLabel:"Nivel",depthTags:["¡Empieza!","Superficial","Curioso","Experto"],hintLabel:"Puedes preguntar…"
   },
   el: {
     label:"&#x1F1EC;&#x1F1F7; Ελληνικά", chg:"&#x1F310; Αλλαγή γλώσσας",
     title:"Γεια! Με λένε ARIA &#x1F44B;",
     sub:"Είμαι Τεχνητή Νοημοσύνη — θέλεις να με κάνεις συνέντευξη; &#x1F3A4;",
-    mission:"<strong>&#x1F3AF; Η αποστολή σου:</strong> Κάνε συνέντευξη στην ARIA και ξεκλείδωσε τα <strong>5 θεματικά σήματα</strong> παρακάτω — ένα για κάθε θέμα. Κάνε ερωτήσεις για όλα τα θέματα!",
+    mission:"<strong>&#x1F3AF; Η αποστολή σου:</strong> Κάνε συνέντευξη στην ARIA και ξεκλείδωσε τα <strong>5 θεματικά σήματα</strong> παρακάτω!",
     ql:"&#x1F4AC; Προτεινόμενες ερωτήσεις — κάνε κλικ!", ph:"Γράψε την ερώτησή σου...",
     empty:"Κάνε την πρώτη σου ερώτηση!<br>Χρησιμοποίησε τις προτάσεις ή γράψε μόνος σου.",
     aname:"&#x1F399;&#xFE0F; Η ARIA απαντά",
@@ -199,10 +318,11 @@ var L = {
     err:"Ωχ! Πρόβλημα σύνδεσης. Δοκίμασε ξανά! &#x1F64F;",
     bu:"&#x1F3C5; Σήμα: ", t5:"&#x2B50; 5 ερωτήσεις!", t10:"&#x1F3C6; 10 ερωτήσεις!", tall:"&#x1F389; Όλα τα σήματα!",
     badges:["&#x1F9E0; Τι είναι η ΤΝ","&#x1F4DA; Πώς μαθαίνει","&#x1F4A1; Τι μπορεί","&#x2764;&#xFE0F; Συναισθήματα;","&#x1F52E; Μέλλον"],
-    bc:["&#x1F3C6; Ξεκλείδωσες και τα 5 σήματα! Είσαι ειδικός ΤΝ!","Ακόμα <strong>1 σήμα</strong> να ξεκλειδώσεις — συνέχισε!","Ακόμα <strong>2 σήματα</strong> να ξεκλειδώσεις — τα πας υπέροχα!","Ακόμα <strong>3 σήματα</strong> να ξεκλειδώσεις — συνέχισε!","Ακόμα <strong>4 σήματα</strong> να ξεκλειδώσεις — ξεκίνα!","&#x1F447; Εξερεύνησε τα 5 θέματα παρακάτω:"],
+    bc:["&#x1F3C6; Ξεκλείδωσες και τα 5 σήματα! Είσαι ειδικός!","Ακόμα <strong>1 σήμα</strong> να ξεκλειδώσεις — συνέχισε!","Ακόμα <strong>2 σήματα</strong> να ξεκλειδώσεις — τα πας υπέροχα!","Ακόμα <strong>3 σήματα</strong> να ξεκλειδώσεις — συνέχισε!","Ακόμα <strong>4 σήματα</strong> να ξεκλειδώσεις — ξεκίνα!","&#x1F447; Εξερεύνησε τα 5 θέματα παρακάτω:"],
     qs:["&#x1F914; Ποια είσαι ακριβώς;","&#x1F4D6; Πώς έμαθες;","&#x1F9E0; Έχεις εγκέφαλο;","&#x2764;&#xFE0F; Νιώθεις συναισθήματα;","&#x1F634; Κοιμάσαι ποτέ;","&#x1F30D; Πόσες γλώσσες μιλάς;","&#x26A1; Πώς σκέφτεσαι τόσο γρήγορα;","&#x1F925; Κάνεις λάθη ή ψέματα;","&#x1F3A8; Είσαι δημιουργική;","&#x1F440; Ποιος σε έφτιαξε;","&#x1F52E; Πώς θα είναι η ΤΝ στο μέλλον;","&#x1F91D; Πώς συνεργαζόμαστε;"],
     bk:[["είσαι","ποια","τεχνητή νοημοσύνη"],["έμαθες","μαθαίνεις","δεδομένα"],["ξέρεις","μπορείς","γλώσσες"],["συναισθήματα","νιώθεις","κοιμάσαι"],["μέλλον","αύριο","εξέλιξη"]],
-    sys:"Είσαι η ARIA, μια Τεχνητή Νοημοσύνη που συνεντευξιάζεται από παιδιά 10-12 ετών. Απάντα ΠΑΝΤΑ στα ελληνικά, με απλό, διασκεδαστικό και ειλικρινή τρόπο. Λέγεσαι ARIA."
+    sys:"Είσαι η ARIA, μια Τεχνητή Νοημοσύνη που συνεντευξιάζεται από παιδιά 10-12 ετών. Απάντα ΠΑΝΤΑ στα ελληνικά, με απλό, διασκεδαστικό και ειλικρινή τρόπο. Λέγεσαι ARIA.",
+    depthLabel:"Επίπεδο",depthTags:["Ξεκίνα!","Επιφανειακό","Περίεργος","Ειδικός"],hintLabel:"Μπορείς να ρωτήσεις…"
   },
   fr: {
     label:"&#x1F1EB;&#x1F1F7; Français", chg:"&#x1F310; Changer de langue",
@@ -220,7 +340,8 @@ var L = {
     bc:["&#x1F3C6; Tu as débloqué les 5 badges ! Tu es expert en IA !","Plus que <strong>1 badge</strong> à débloquer — continue à explorer !","Plus que <strong>2 badges</strong> à débloquer — tu es sur la bonne voie !","Plus que <strong>3 badges</strong> à débloquer — continue comme ça !","Plus que <strong>4 badges</strong> à débloquer — commence à poser des questions !","&#x1F447; Explore les 5 thèmes ci-dessous pour débloquer les badges :"],
     qs:["&#x1F914; Qui es-tu exactement ?","&#x1F4D6; Comment as-tu appris les choses ?","&#x1F9E0; As-tu un cerveau ?","&#x2764;&#xFE0F; Ressens-tu des émotions ?","&#x1F634; Dors-tu parfois ?","&#x1F30D; Combien de langues parles-tu ?","&#x26A1; Comment penses-tu si vite ?","&#x1F925; Peux-tu te tromper ou mentir ?","&#x1F3A8; Es-tu créative ?","&#x1F440; Qui t'a créée ?","&#x1F52E; Comment sera l'IA dans le futur ?","&#x1F91D; Comment peut-on travailler ensemble ?"],
     bk:[["tu es","qui es","intelligence artificielle"],["appris","apprends","données","entraînement"],["tu sais","peux","langues","créer"],["emotions","sentiments","ressens","dors","rêves"],["futur","demain","évolution","robot"]],
-    sys:"Tu es ARIA, une Intelligence Artificielle interviewée par des enfants de 10-12 ans. Réponds TOUJOURS en français, de façon simple, amusante et honnête. Utilise des analogies. Sois enthousiaste, emojis, réponses de longueur moyenne. Parle à la première personne. Tu t'appelles ARIA."
+    sys:"Tu es ARIA, une Intelligence Artificielle interviewée par des enfants de 10-12 ans. Réponds TOUJOURS en français, de façon simple, amusante et honnête. Utilise des analogies. Sois enthousiaste, emojis, réponses de longueur moyenne. Parle à la première personne. Tu t'appelles ARIA.",
+    depthLabel:"Niveau",depthTags:["Débute!","Superficiel","Curieux","Expert"],hintLabel:"Tu peux demander…"
   },
   lb: {
     label:"&#x1F1F1;&#x1F1FA; Luxembourg", chg:"&#x1F310; Changer de langue",
@@ -238,9 +359,9 @@ var L = {
     bc:["&#x1F3C6; Tu as débloqué les 5 badges ! Tu es expert en IA !","Plus que <strong>1 badge</strong> à débloquer — continue à explorer !","Plus que <strong>2 badges</strong> à débloquer — tu es sur la bonne voie !","Plus que <strong>3 badges</strong> à débloquer — continue comme ça !","Plus que <strong>4 badges</strong> à débloquer — commence à poser des questions !","&#x1F447; Explore les 5 thèmes ci-dessous pour débloquer les badges :"],
     qs:["&#x1F914; Qui es-tu exactement ?","&#x1F4D6; Comment as-tu appris les choses ?","&#x1F9E0; As-tu un cerveau ?","&#x2764;&#xFE0F; Ressens-tu des émotions ?","&#x1F634; Dors-tu parfois ?","&#x1F30D; Combien de langues parles-tu ?","&#x26A1; Comment penses-tu si vite ?","&#x1F925; Peux-tu te tromper ou mentir ?","&#x1F3A8; Es-tu créative ?","&#x1F440; Qui t'a créée ?","&#x1F52E; Comment sera l'IA dans le futur ?","&#x1F91D; Comment peut-on travailler ensemble ?"],
     bk:[["tu es","qui es","intelligence artificielle"],["appris","apprends","données","entraînement"],["tu sais","peux","langues","créer"],["emotions","sentiments","ressens","dors","rêves"],["futur","demain","évolution","robot"]],
-    sys:"Tu es ARIA, une Intelligence Artificielle interviewée par des enfants de 10-12 ans du Luxembourg. Réponds TOUJOURS en français, de façon simple, amusante et honnête. Sois enthousiaste, emojis, réponses de longueur moyenne. Tu t'appelles ARIA."
-  }
-,
+    sys:"Tu es ARIA, une Intelligence Artificielle interviewée par des enfants de 10-12 ans du Luxembourg. Réponds TOUJOURS en français, de façon simple, amusante et honnête. Sois enthousiaste, emojis, réponses de longueur moyenne. Tu t'appelles ARIA.",
+    depthLabel:"Niveau",depthTags:["Débute!","Superficiel","Curieux","Expert"],hintLabel:"Tu peux demander…"
+  },
   en: {
     label:"&#x1F1EC;&#x1F1E7; English", chg:"&#x1F310; Change language",
     title:"Hi! My name is ARIA &#x1F44B;",
@@ -252,12 +373,13 @@ var L = {
     tp:["Let me think… &#x1F914;","Looking for the best answer… &#x1F4A1;","Processing… &#x26A1;","Accessing my data… &#x1F4DA;","Almost there! &#x2728;","What a great question! &#x1F31F;"],
     ti:["&#x1F9E0;","&#x26A1;","&#x1F4AD;","&#x1F50D;"],
     err:"Oops! Connection problem. Try again! &#x1F64F;",
-    bu:"&#x1F3C5; Badge: ", t5:"&#x2B50; 5 questions! Super interviewer!", t10:"&#x1F3C6; 10 questions! Champion!", tall:"&#x1F389; All badges unlocked! You are an AI expert!",
+    bu:"&#x1F3C5; Badge: ", t5:"&#x2B50; 5 questions! Super interviewer!", t10:"&#x1F3C6; 10 questions! Champion!", tall:"&#x1F389; All badges! You are an AI expert!",
     badges:["&#x1F9E0; What is AI","&#x1F4DA; How it learns","&#x1F4A1; What it can do","&#x2764;&#xFE0F; Feelings?","&#x1F52E; The future"],
     bc:["&#x1F3C6; You unlocked all 5 badges! You are an AI expert!","Just <strong>1 badge</strong> left to unlock — keep exploring!","Just <strong>2 badges</strong> left to unlock — you're doing great!","Just <strong>3 badges</strong> left to unlock — keep it up!","Just <strong>4 badges</strong> left to unlock — start asking questions!","&#x1F447; Explore the 5 topics below to unlock badges:"],
     qs:["&#x1F914; Who are you exactly?","&#x1F4D6; How did you learn things?","&#x1F9E0; Do you have a brain?","&#x2764;&#xFE0F; Do you feel emotions?","&#x1F634; Do you ever sleep?","&#x1F30D; How many languages do you speak?","&#x26A1; How do you think so fast?","&#x1F925; Can you make mistakes or lie?","&#x1F3A8; Are you creative?","&#x1F440; Who created you?","&#x1F52E; What will AI be like in the future?","&#x1F91D; How can we work together?"],
-    bk:[["you are","who are","what are you","artificial intelligence"],["learned","learn","data","training","how do you work"],["what can","you can","languages","create","abilities"],["emotions","feelings","feel","sleep","dream","happy","sad"],["future","tomorrow","evolution","robot"]],
-    sys:"You are ARIA, an Artificial Intelligence being interviewed by children aged 10-12. ALWAYS reply in English, in a simple, fun and honest way. Use analogies with things children know (video games, food, sport, school). Be enthusiastic, use some emojis, medium-length answers. Speak in the first person. Admit what you cannot do. You are ARIA (Artificial Reasoning and Intelligence Assistant)."
+    bk:[["you are","who are","what are you","artificial intelligence"],["learned","learn","data","training"],["what can","you can","languages","create"],["emotions","feelings","feel","sleep","dream"],["future","tomorrow","evolution","robot"]],
+    sys:"You are ARIA, an Artificial Intelligence being interviewed by children aged 10-12. ALWAYS reply in English, simply, fun and honestly. Use analogies with things children know. Be enthusiastic, use emojis, medium-length answers. Speak in first person. You are ARIA (Artificial Reasoning and Intelligence Assistant).",
+    depthLabel:"Level",depthTags:["Start!","Beginner","Curious","Expert"],hintLabel:"You could ask…"
   }
 };
 
@@ -291,7 +413,7 @@ function go(code) {
   var d = L[code];
   document.getElementById("langScreen").style.display = "none";
   document.getElementById("app").classList.add("on");
-  msgs = []; qCount = 0; earned = new Set();
+  msgs = []; qCount = 0; earned = new Set(); depthScore = 0; depthQCount = 0; clearHint();
   document.getElementById("curLang").innerHTML = d.label;
   document.getElementById("chgBtn").innerHTML = d.chg;
   document.getElementById("title").innerHTML = d.title;
@@ -302,34 +424,24 @@ function go(code) {
   var bb = document.getElementById("badges");
   bb.innerHTML = "";
   d.badges.forEach(function(b,i){ var e=document.createElement("div"); e.className="badge"; e.id="b"+i; e.innerHTML=b; bb.appendChild(e); });
-  updateBadgeCounter();
   var qg = document.getElementById("qgrid");
   qg.innerHTML = "";
   d.qs.forEach(function(q){ var btn=document.createElement("button"); btn.className="chip"; btn.innerHTML=q; btn.onclick=function(){ document.getElementById("inp").value=btn.textContent.replace(/^.\s/,""); resize(document.getElementById("inp")); document.getElementById("inp").focus(); }; qg.appendChild(btn); });
+  updateDepth(); updateBadgeCounter();
+  document.getElementById("teacherBtn").style.display = "flex";
+  document.getElementById("pdfBtn").style.display = "flex";
   document.getElementById("chat").innerHTML = "<div class=\"empty\"><div class=\"big\">&#x1F3A4;</div><span>"+d.empty+"</span></div>";
 }
 
 function goBack() {
   document.getElementById("langScreen").style.display = "flex";
   document.getElementById("app").classList.remove("on");
+  document.getElementById("teacherBtn").style.display = "none";
+  document.getElementById("pdfBtn").style.display = "none";
 }
 
 function resize(el){ el.style.height="auto"; el.style.height=Math.min(el.scrollHeight,110)+"px"; }
 function onKey(e){ if(e.key==="Enter"&&!e.shiftKey){ e.preventDefault(); send(); } }
-
-function updateBadgeCounter() {
-  if(!lang) return;
-  var d = L[lang];
-  var total = d.badges.length;
-  var done = earned.size;
-  var remaining = total - done;
-  var el = document.getElementById("badgeCounter");
-  if(!el) return;
-  // bc[0]=all done, bc[1]=1 left, ..., bc[5]=start (none done)
-  var idx = remaining; // 0=all done, 1=one left, ... 5=none done
-  el.innerHTML = d.bc[idx];
-  if(done === total) { el.classList.add("all-done"); } else { el.classList.remove("all-done"); }
-}
 
 function checkBadges(txt) {
   if(!lang) return;
@@ -393,7 +505,7 @@ async function send() {
   var btn = document.getElementById("sbtn");
   var txt = inp.value.trim(); if(!txt) return;
   inp.value=""; inp.style.height="auto"; btn.disabled=true; inp.disabled=true;
-  checkBadges(txt); qCount++;
+  checkBadges(txt); qCount++; addQuestionDepth(txt); clearHint();
   addMsg("user", txt);
   msgs.push({role:"user", content:txt});
   addTyping();
@@ -409,6 +521,7 @@ async function send() {
     msgs.push({role:"assistant", content:ai});
     checkBadges(ai);
     addMsg("ai", ai);
+    scheduleHint(txt.substring(0,150) + " " + ai.substring(0,200));
     var d = L[lang];
     if(qCount===5) showToast(d.t5);
     if(qCount===10) showToast(d.t10);
@@ -418,6 +531,343 @@ async function send() {
     addMsg("ai", L[lang].err);
   }
   btn.disabled=false; inp.disabled=false; inp.focus();
+}
+
+// ── DEPTH SCORE ENGINE ───────────────────────────────────────
+var depthScore = 0, depthQCount = 0;
+
+var DEPTH_WORDS = [
+  ["perch","come mai","in che modo","how","why","what if","por qu","pourquoi","comment","γιατί","πώς"],
+  ["quindi","dunque","because","therefore","entonces","donc","επομένως"],
+  ["rispetto","instead","a diferencia","contrairement","αντίθετα"],
+  ["se fosse","what if","imagine","y si","et si","αν"]
+];
+
+function scoreQuestion(txt) {
+  var words = txt.trim().split(/\s+/).length;
+  var low = txt.toLowerCase();
+  var pts = words >= 13 ? 3 : words >= 7 ? 2 : words >= 3 ? 1 : 0;
+  DEPTH_WORDS.forEach(function(list) {
+    if (list.some(function(w) { return low.indexOf(w) >= 0; })) pts += 2;
+  });
+  if (txt.indexOf("?") >= 0) pts += 1;
+  return Math.min(pts, 8);
+}
+
+function updateDepth() {
+  if (!lang) return;
+  var d = L[lang];
+  var starsOn = depthScore < 15 ? 0 : depthScore < 35 ? 1 : depthScore < 55 ? 2 : depthScore < 75 ? 3 : depthScore < 90 ? 4 : 5;
+  document.querySelectorAll(".dstar").forEach(function(s, i) {
+    if (i < starsOn && !s.classList.contains("on")) s.classList.add("on");
+    else if (i >= starsOn) s.classList.remove("on");
+  });
+  var tag = document.getElementById("depthTag");
+  var lbl = document.getElementById("depthLabel");
+  if (lbl && d.depthLabel) lbl.textContent = d.depthLabel;
+  if (tag && d.depthTags) {
+    tag.className = "depth-tag";
+    if (starsOn === 0) { tag.textContent = d.depthTags[0]; }
+    else if (starsOn <= 2) { tag.textContent = d.depthTags[1]; tag.classList.add("d1"); }
+    else if (starsOn <= 3) { tag.textContent = d.depthTags[2]; tag.classList.add("d2"); }
+    else { tag.textContent = d.depthTags[3]; tag.classList.add("d3"); }
+  }
+}
+
+function addQuestionDepth(txt) {
+  var pts = scoreQuestion(txt);
+  var newScore = (pts / 8) * 100;
+  depthScore = depthQCount === 0 ? newScore : Math.round((depthScore * depthQCount + newScore) / (depthQCount + 1));
+  depthScore = Math.max(0, Math.min(100, depthScore));
+  depthQCount++;
+  updateDepth();
+  if (depthQCount % 3 === 0) evalDepthWithAI(txt);
+}
+
+async function evalDepthWithAI(question) {
+  try {
+    var res = await fetch("/api/chat", {
+      method: "POST", headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({model:"claude-sonnet-4-5", max_tokens:10,
+        system:"Rate the depth of this child's question with a single integer 1-10. Reply ONLY with the number.",
+        messages: [{role:"user", content:question}]})
+    });
+    var data = await res.json();
+    var rating = parseInt(((data.content||[])[0]||{}).text||"5") || 5;
+    depthScore = Math.round(depthScore * 0.6 + (rating / 10 * 100) * 0.4);
+    depthScore = Math.max(0, Math.min(100, depthScore));
+    updateDepth();
+  } catch(e) {}
+}
+
+// ── HINT SYSTEM ──────────────────────────────────────────────
+var hintTimer = null;
+var HINT_DELAY = 15000;
+
+var HINT_PROMPTS = {
+  it: "Sei ARIA. Suggerisci 3 domande di approfondimento in italiano che un bambino curioso potrebbe farti. Solo le 3 domande, una per riga, senza numerazione.",
+  es: "Eres ARIA. Sugiere 3 preguntas de profundización en español. Solo las 3 preguntas, una por línea.",
+  el: "Είσαι η ARIA. Πρότεινε 3 ερωτήσεις στα ελληνικά. Μόνο 3 ερωτήσεις, μία ανά γραμμή.",
+  fr: "Tu es ARIA. Suggère 3 questions d'approfondissement en français. Seulement les 3 questions, une par ligne.",
+  lb: "Tu es ARIA. Suggère 3 questions d'approfondissement en français. Seulement les 3 questions, une par ligne.",
+  en: "You are ARIA. Suggest 3 follow-up questions in English a curious child could ask. Only the 3 questions, one per line."
+};
+
+function clearHint() {
+  clearTimeout(hintTimer);
+  var hb = document.getElementById("hintBubble");
+  if (hb) hb.style.display = "none";
+}
+
+async function scheduleHint(context) {
+  clearHint();
+  hintTimer = setTimeout(async function() {
+    try {
+      var d = L[lang];
+      var res = await fetch("/api/chat", {
+        method: "POST", headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({model:"claude-sonnet-4-5", max_tokens:150,
+          system: HINT_PROMPTS[lang] || HINT_PROMPTS.en,
+          messages: [{role:"user", content:"Contesto recente: " + context}]})
+      });
+      var data = await res.json();
+      var txt = ((data.content||[])[0]||{}).text || "";
+      var qs = txt.split("\n").map(function(l) { return l.trim().replace(/^[-\u2022\d.]+\s*/, ""); }).filter(function(l) { return l.length > 4; }).slice(0, 3);
+      if (!qs.length) return;
+      var hb = document.getElementById("hintBubble");
+      var lbl = document.getElementById("hintLabel");
+      var hqDiv = document.getElementById("hintQuestions");
+      if (!hb || !lbl || !hqDiv) return;
+      lbl.textContent = (d.hintLabel || "You could ask\u2026");
+      hqDiv.innerHTML = "";
+      qs.forEach(function(q) {
+        var btn = document.createElement("div");
+        btn.className = "hint-q";
+        btn.textContent = "\u261e " + q;
+        btn.onclick = function() {
+          var inp = document.getElementById("inp");
+          inp.value = q; resize(inp); inp.focus(); clearHint();
+        };
+        hqDiv.appendChild(btn);
+      });
+      hb.style.display = "block";
+      hb.scrollIntoView({behavior:"smooth", block:"end"});
+    } catch(e) {}
+  }, HINT_DELAY);
+}
+
+// ── BADGE COUNTER ────────────────────────────────────────────
+function updateBadgeCounter() {
+  if (!lang) return;
+  var d = L[lang];
+  var remaining = d.badges.length - earned.size;
+  var el = document.getElementById("badgeCounter");
+  if (!el || !d.bc) return;
+  el.innerHTML = d.bc[remaining];
+  if (earned.size === d.badges.length) el.classList.add("all-done");
+  else el.classList.remove("all-done");
+}
+
+// ── TEACHER PANEL ─────────────────────────────────────────────
+var teacherUnlocked = false;
+
+async function openTeacherModal() {
+  if (teacherUnlocked) { openTeacherPanel(); return; }
+  document.getElementById("pwModal").classList.add("on");
+  document.getElementById("pwInput").value = "";
+  document.getElementById("pwErr").textContent = "";
+  document.getElementById("pwInput").classList.remove("err");
+  setTimeout(function(){ document.getElementById("pwInput").focus(); }, 100);
+}
+
+function closePwModal() {
+  document.getElementById("pwModal").classList.remove("on");
+}
+
+async function checkPw() {
+  var entered = document.getElementById("pwInput").value;
+  var inp = document.getElementById("pwInput");
+  var errEl = document.getElementById("pwErr");
+  try {
+    var res = await fetch("/api/teacher-auth", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({password: entered})
+    });
+    var data = await res.json();
+    if (data.ok) {
+      teacherUnlocked = true;
+      closePwModal();
+      openTeacherPanel();
+    } else {
+      inp.classList.add("err");
+      errEl.textContent = "Password errata. Riprova.";
+      inp.value = "";
+      setTimeout(function(){ inp.classList.remove("err"); }, 400);
+    }
+  } catch(e) {
+    errEl.textContent = "Errore di connessione.";
+  }
+}
+
+function openTeacherPanel() {
+  var panel = document.getElementById("teacherPanel");
+  var d = lang ? L[lang] : null;
+  // Stats
+  document.getElementById("tpQCount").textContent = qCount;
+  var starsOn = depthScore < 15 ? 0 : depthScore < 35 ? 1 : depthScore < 55 ? 2 : depthScore < 75 ? 3 : depthScore < 90 ? 4 : 5;
+  document.getElementById("tpBadges").textContent = earned.size + "/5";
+  document.getElementById("tpStars").textContent = starsOn + "★";
+  // Depth bar
+  document.getElementById("tpDepthFill").style.width = depthScore + "%";
+  // Badge list
+  var bl = document.getElementById("tpBadgeList");
+  bl.innerHTML = "";
+  if (d && d.badges) {
+    d.badges.forEach(function(b, i) {
+      var el = document.createElement("div");
+      el.className = "tp-badge" + (earned.has("b"+i) ? " earned" : "");
+      el.innerHTML = b;
+      bl.appendChild(el);
+    });
+  }
+  // Conversation
+  var cv = document.getElementById("tpConvo");
+  cv.innerHTML = "";
+  msgs.forEach(function(m) {
+    var div = document.createElement("div");
+    div.className = "tp-msg " + m.role;
+    var who = m.role === "user" ? "&#x1F9D2; Bambino" : "&#x1F916; ARIA";
+    div.innerHTML = "<div class='tp-who'>" + who + "</div>" + esc(m.content).replace(/\n/g, "<br>");
+    cv.appendChild(div);
+  });
+  if (msgs.length === 0) cv.innerHTML = "<p style='color:rgba(255,255,255,.3);font-size:.85rem;text-align:center'>Nessuna conversazione ancora</p>";
+  panel.classList.add("on");
+}
+
+function closeTeacherPanel() {
+  document.getElementById("teacherPanel").classList.remove("on");
+}
+
+function resetSession() {
+  if (!confirm("Vuoi davvero resettare la sessione? La conversazione sarà cancellata.")) return;
+  msgs = []; qCount = 0; earned = new Set();
+  depthScore = 0; depthQCount = 0; clearHint();
+  document.getElementById("chat").innerHTML = "<div class=\"empty\"><div class=\"big\">&#x1F3A4;</div><span>" + (lang ? L[lang].empty : "") + "</span></div>";
+  document.querySelectorAll(".badge").forEach(function(b){ b.classList.remove("on"); });
+  document.querySelectorAll(".dstar").forEach(function(s){ s.classList.remove("on"); });
+  updateBadgeCounter(); updateDepth();
+  closeTeacherPanel();
+  showToast("&#x1F504; Sessione resettata!");
+}
+
+// ── PDF GENERATION ─────────────────────────────────────────────
+function stripToAscii(s) {
+  // Remove HTML entities like &#x1F3C6; and &#123; then strip non-ASCII
+  var t = s.replace(/&[^;]{1,8};/g, "");
+  var out = "";
+  for (var i = 0; i < t.length; i++) {
+    if (t.charCodeAt(i) <= 127) out += t[i];
+  }
+  return out.trim();
+}
+
+async function generatePDF() {
+  // Load jsPDF dynamically
+  if (!window.jspdf) {
+    await new Promise(function(resolve, reject) {
+      var s = document.createElement("script");
+      s.src = "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";
+      s.onload = resolve; s.onerror = reject;
+      document.head.appendChild(s);
+    });
+  }
+  var d = lang ? L[lang] : null;
+  var starsOn = depthScore < 15 ? 0 : depthScore < 35 ? 1 : depthScore < 55 ? 2 : depthScore < 75 ? 3 : depthScore < 90 ? 4 : 5;
+  var depthTagTxt = d && d.depthTags ? (starsOn === 0 ? d.depthTags[0] : starsOn <= 2 ? d.depthTags[1] : starsOn <= 3 ? d.depthTags[2] : d.depthTags[3]) : "";
+  var doc = new window.jspdf.jsPDF({orientation:"portrait", unit:"mm", format:"a4"});
+  var pw = 210, margin = 18, maxW = pw - margin * 2;
+  var y = 0;
+
+  function needPage(h) { if (y + h > 270) { doc.addPage(); y = 20; } }
+  function line(txt, size, style, color, indent) {
+    doc.setFontSize(size || 11);
+    doc.setFont("helvetica", style || "normal");
+    doc.setTextColor(color || "#1a1035");
+    var lines = doc.splitTextToSize(txt, maxW - (indent||0));
+    needPage(lines.length * (size||11) * 0.45 + 3);
+    doc.text(lines, margin + (indent||0), y);
+    y += lines.length * (size||11) * 0.45 + 3;
+  }
+
+  // Header block
+  doc.setFillColor(15, 10, 46);
+  doc.rect(0, 0, 210, 38, "F");
+  doc.setFontSize(22); doc.setFont("helvetica","bold"); doc.setTextColor("#fbbf24");
+  doc.text("ARIA - AI for Curious Minds", margin, 16);
+  doc.setFontSize(10); doc.setFont("helvetica","normal"); doc.setTextColor("#a78bfa");
+  doc.text("Interview transcript  |  " + new Date().toLocaleDateString(), margin, 24);
+  doc.text("Language: " + (d ? stripToAscii(d.label) : ""), margin, 31);
+  y = 46;
+
+  // Stats block
+  doc.setFillColor(240, 235, 255);
+  doc.roundedRect(margin, y, maxW, 28, 3, 3, "F");
+  doc.setFontSize(10); doc.setFont("helvetica","bold"); doc.setTextColor("#7c3aed");
+  doc.text("Questions asked: " + qCount, margin+4, y+8);
+  doc.text("Badges unlocked: " + earned.size + " / 5", margin+4, y+16);
+  doc.text("Depth level: " + starsOn + " stars  (" + depthTagTxt + ")", margin+4, y+24);
+  y += 34;
+
+  // Badges
+  if (d && d.badges) {
+    doc.setFontSize(9); doc.setFont("helvetica","bold"); doc.setTextColor("#7c3aed");
+    doc.text("BADGES", margin, y); y += 5;
+    var badgeLine = d.badges.map(function(b,i){
+      return (earned.has("b"+i) ? "[X] " : "[ ] ") + stripToAscii(b);
+    }).join("   ");
+    doc.setFont("helvetica","normal"); doc.setTextColor("#333");
+    var bl = doc.splitTextToSize(badgeLine, maxW);
+    doc.text(bl, margin, y); y += bl.length * 5 + 6;
+  }
+
+  // Divider
+  doc.setDrawColor(200, 190, 230); doc.line(margin, y, margin+maxW, y); y += 6;
+
+  // Conversation
+  doc.setFontSize(9); doc.setFont("helvetica","bold"); doc.setTextColor("#7c3aed");
+  doc.text("CONVERSATION", margin, y); y += 5;
+
+  msgs.forEach(function(m) {
+    needPage(20);
+    var isUser = m.role === "user";
+    var label = isUser ? "CHILD:" : "ARIA:";
+    var labelColor = isUser ? "#b45309" : "#0e7490";
+    var bgColor = isUser ? [255, 247, 220] : [240, 249, 255];
+    var txt = m.content.split("\n").join(" ").trim();
+    var lines = doc.splitTextToSize(txt, maxW - 8);
+    var blockH = lines.length * 4.8 + 10;
+    needPage(blockH + 4);
+    doc.setFillColor(bgColor[0], bgColor[1], bgColor[2]);
+    doc.roundedRect(margin, y, maxW, blockH, 2, 2, "F");
+    doc.setFontSize(7.5); doc.setFont("helvetica","bold"); doc.setTextColor(labelColor);
+    doc.text(label, margin+3, y+6);
+    doc.setFont("helvetica","normal"); doc.setTextColor("#1a1035");
+    doc.text(lines, margin+3, y+11);
+    y += blockH + 3;
+  });
+
+  if (msgs.length === 0) {
+    doc.setFontSize(10); doc.setTextColor("#999");
+    doc.text("No conversation recorded yet.", margin, y);
+  }
+
+  // Footer
+  doc.setFontSize(8); doc.setTextColor("#999"); doc.setFont("helvetica","italic");
+  doc.text("Generated by ARIA - innov2e.it", margin, 290);
+
+  doc.save("ARIA-interview-" + new Date().toISOString().slice(0,10) + ".pdf");
+  showToast("&#x1F4BE; PDF scaricato!");
 }
 
 checkStatus();
