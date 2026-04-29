@@ -99,13 +99,14 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;bac
 
 <div id="langScreen">
   <div class="logo">&#x1F916;</div>
-  <h1>Scegli la lingua / Choisissez<br>Elige el idioma / &#917;&#960;&#953;&#955;&#941;&#958;&#964;&#949;</h1>
+  <h1>Scegli la lingua / Choose your language<br>Elige el idioma / &#917;&#960;&#953;&#955;&#941;&#958;&#964;&#949;</h1>
   <div class="lang-grid">
     <button class="lang-btn" id="btn-it" onclick="go('it')"><span class="flag">&#x1F1EE;&#x1F1F9;</span><strong>Italiano</strong><span class="sub">Italia</span></button>
     <button class="lang-btn" id="btn-es" onclick="go('es')"><span class="flag">&#x1F1EA;&#x1F1F8;</span><strong>Espa&#xF1;ol</strong><span class="sub">Espa&#xF1;a</span></button>
     <button class="lang-btn" id="btn-el" onclick="go('el')"><span class="flag">&#x1F1EC;&#x1F1F7;</span><strong>&#917;&#955;&#955;&#951;&#957;&#953;&#954;&#940;</strong><span class="sub">&#917;&#955;&#955;&#940;&#948;&#945;</span></button>
     <button class="lang-btn" id="btn-fr" onclick="go('fr')"><span class="flag">&#x1F1EB;&#x1F1F7;</span><strong>Fran&#xe7;ais</strong><span class="sub">France</span></button>
     <button class="lang-btn" id="btn-lb" onclick="go('lb')"><span class="flag">&#x1F1F1;&#x1F1FA;</span><strong>Fran&#xe7;ais</strong><span class="sub">Luxembourg</span></button>
+    <button class="lang-btn" id="btn-en" onclick="go('en')"><span class="flag">&#x1F1EC;&#x1F1E7;</span><strong>English</strong><span class="sub">United Kingdom</span></button>
   </div>
   <div id="statusBanner" class="checking"><span class="sdot"></span>Sto verificando se ARIA &egrave; disponibile&hellip;</div>
 </div>
@@ -226,6 +227,24 @@ var L = {
     qs:["&#x1F914; Qui es-tu exactement ?","&#x1F4D6; Comment as-tu appris les choses ?","&#x1F9E0; As-tu un cerveau ?","&#x2764;&#xFE0F; Ressens-tu des émotions ?","&#x1F634; Dors-tu parfois ?","&#x1F30D; Combien de langues parles-tu ?","&#x26A1; Comment penses-tu si vite ?","&#x1F925; Peux-tu te tromper ou mentir ?","&#x1F3A8; Es-tu créative ?","&#x1F440; Qui t'a créée ?","&#x1F52E; Comment sera l'IA dans le futur ?","&#x1F91D; Comment peut-on travailler ensemble ?"],
     bk:[["tu es","qui es","intelligence artificielle"],["appris","apprends","données","entraînement"],["tu sais","peux","langues","créer"],["emotions","sentiments","ressens","dors","rêves"],["futur","demain","évolution","robot"]],
     sys:"Tu es ARIA, une Intelligence Artificielle interviewée par des enfants de 10-12 ans du Luxembourg. Réponds TOUJOURS en français, de façon simple, amusante et honnête. Sois enthousiaste, emojis, réponses de longueur moyenne. Tu t'appelles ARIA."
+  }
+,
+  en: {
+    label:"&#x1F1EC;&#x1F1E7; English", chg:"&#x1F310; Change language",
+    title:"Hi! My name is ARIA &#x1F44B;",
+    sub:"I am an Artificial Intelligence — do you want to interview me? &#x1F3A4;",
+    mission:"<strong>Your mission:</strong> Ask me questions to find out everything about me! The more questions you ask, the more badges you earn.",
+    ql:"&#x1F4AC; Suggested questions — click to use them!", ph:"Write your question here...",
+    empty:"Ask your first question to ARIA!<br>Use the suggestions or make up your own.",
+    aname:"&#x1F399;&#xFE0F; ARIA answers",
+    tp:["Let me think… &#x1F914;","Looking for the best answer… &#x1F4A1;","Processing… &#x26A1;","Accessing my data… &#x1F4DA;","Almost there! &#x2728;","What a great question! &#x1F31F;"],
+    ti:["&#x1F9E0;","&#x26A1;","&#x1F4AD;","&#x1F50D;"],
+    err:"Oops! Connection problem. Try again! &#x1F64F;",
+    bu:"&#x1F3C5; Badge: ", t5:"&#x2B50; 5 questions! Super interviewer!", t10:"&#x1F3C6; 10 questions! Champion!", tall:"&#x1F389; All badges unlocked! You are an AI expert!",
+    badges:["&#x1F9E0; What is AI","&#x1F4DA; How it learns","&#x1F4A1; What it can do","&#x2764;&#xFE0F; Feelings?","&#x1F52E; The future"],
+    qs:["&#x1F914; Who are you exactly?","&#x1F4D6; How did you learn things?","&#x1F9E0; Do you have a brain?","&#x2764;&#xFE0F; Do you feel emotions?","&#x1F634; Do you ever sleep?","&#x1F30D; How many languages do you speak?","&#x26A1; How do you think so fast?","&#x1F925; Can you make mistakes or lie?","&#x1F3A8; Are you creative?","&#x1F440; Who created you?","&#x1F52E; What will AI be like in the future?","&#x1F91D; How can we work together?"],
+    bk:[["you are","who are","what are you","artificial intelligence"],["learned","learn","data","training","how do you work"],["what can","you can","languages","create","abilities"],["emotions","feelings","feel","sleep","dream","happy","sad"],["future","tomorrow","evolution","robot"]],
+    sys:"You are ARIA, an Artificial Intelligence being interviewed by children aged 10-12. ALWAYS reply in English, in a simple, fun and honest way. Use analogies with things children know (video games, food, sport, school). Be enthusiastic, use some emojis, medium-length answers. Speak in the first person. Admit what you cannot do. You are ARIA (Artificial Reasoning and Intelligence Assistant)."
   }
 };
 
