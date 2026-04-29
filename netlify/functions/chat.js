@@ -1,53 +1,57 @@
 export default async (req) => {
-  console.log('Function called, method:', req.method);
+  const headers = {
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
+  };
 
-  if (req.method === 'OPTIONS') {
-    return new Response(null, {
-      status: 204,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'POST, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type'
-      }
-    });
+  if (req.method === "OPTIONS") {
+    return new Response(null, { status: 204, headers });
   }
 
-  if (req.method !== 'POST') {
-    return new Response('Method not allowed', { status: 405 });
+  // ── Teacher auth endpoint ───────────────────────────────────
+  const url = new URL(req.url);
+  if (url.pathname.endsWith("/teacher-auth")) {
+    if (req.method !== "POST") {
+      return new Response("Method not allowed", { status: 405, headers });
+    }
+    const body = await req.json();
+    const correct = process.env.TEACHER_PASSWORD || "aria2025";
+    const ok = body.password === correct;
+    return new Response(JSON.stringify({ ok }), { status: 200, headers });
+  }
+
+  // ── Main chat proxy ─────────────────────────────────────────
+  if (req.method !== "POST") {
+    return new Response("Method not allowed", { status: 405, headers });
   }
 
   try {
     const body = await req.json();
-    console.log('Calling Anthropic, model:', body.model);
+    console.log("Calling Anthropic, model:", body.model);
 
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': process.env.ANTHROPIC_API_KEY,
-        'anthropic-version': '2023-06-01'
+        "Content-Type": "application/json",
+        "x-api-key": process.env.ANTHROPIC_API_KEY,
+        "anthropic-version": "2023-06-01",
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
     });
 
     const data = await response.json();
-    console.log('Anthropic status:', response.status, 'content blocks:', data.content?.length);
+    console.log("Anthropic status:", response.status, "blocks:", data.content?.length);
 
-    return new Response(JSON.stringify(data), {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
-      }
-    });
-
+    return new Response(JSON.stringify(data), { status: 200, headers });
   } catch (err) {
-    console.error('Error:', err.message);
+    console.error("Error:", err.message);
     return new Response(JSON.stringify({ error: err.message }), {
       status: 500,
-      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+      headers,
     });
   }
 };
 
-export const config = { path: '/api/chat' };
+export const config = { path: ["/api/chat", "/api/teacher-auth"] };
