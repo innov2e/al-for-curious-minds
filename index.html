@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Intervista ARIA 🤖</title>
+<title>ARIA 🤖</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#0f0a2e;--bg2:#1a1248;--purple:#7c3aed;--pl:#a78bfa;--yellow:#fbbf24;--teal:#06b6d4;--pink:#ec4899;--green:#10b981;--white:#f8f5ff;--card:rgba(255,255,255,.06);--brd:rgba(255,255,255,.12)}
@@ -37,6 +37,10 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
 @keyframes pulse{0%,100%{box-shadow:0 0 40px rgba(124,58,237,.5)}50%{box-shadow:0 0 60px rgba(124,58,237,.8)}}
 @keyframes blink{0%,90%,100%{opacity:1}95%{opacity:0}}
 .hdr h1{font-family:'Fredoka One',cursive;font-size:1.9rem;background:linear-gradient(135deg,var(--yellow),var(--pink),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:5px}
+/* ARIA name badge in header */
+.aria-badge{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,rgba(124,58,237,.4),rgba(6,182,212,.3));border:1px solid rgba(124,58,237,.5);border-radius:50px;padding:4px 14px 4px 8px;margin-bottom:8px}
+.aria-badge .ab-dot{width:8px;height:8px;background:var(--green);border-radius:50%;animation:blink 2s ease-in-out infinite}
+.aria-badge span{font-size:.75rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:var(--pl)}
 .sub{color:var(--pl);font-size:.9rem;font-weight:600}
 
 /* MISSION */
@@ -70,11 +74,22 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
 .msg.user .bbl{background:linear-gradient(135deg,rgba(251,191,36,.25),rgba(249,115,22,.2));border:1px solid rgba(251,191,36,.3);border-bottom-right-radius:5px;font-weight:700}
 .msg.ai .bbl{background:var(--card);border:1px solid var(--brd);border-bottom-left-radius:5px}
 .aname{font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:var(--teal);margin-bottom:5px}
-.dots{display:flex;gap:5px;padding:3px 0}
-.dot{width:8px;height:8px;background:var(--pl);border-radius:50%;animation:bounce 1.4s ease-in-out infinite}
-.dot:nth-child(2){animation-delay:.2s}
-.dot:nth-child(3){animation-delay:.4s}
-@keyframes bounce{0%,60%,100%{transform:translateY(0);opacity:.5}30%{transform:translateY(-8px);opacity:1}}
+
+/* ── THINKING ANIMATION ── */
+.thinking{display:flex;flex-direction:column;gap:10px;padding:4px 0}
+.think-icons{display:flex;gap:10px;align-items:center;justify-content:flex-start}
+.think-icon{font-size:1.3rem;animation:iconFloat 2s ease-in-out infinite;display:inline-block}
+.think-icon:nth-child(1){animation-delay:0s}
+.think-icon:nth-child(2){animation-delay:.3s}
+.think-icon:nth-child(3){animation-delay:.6s}
+.think-icon:nth-child(4){animation-delay:.9s}
+@keyframes iconFloat{0%,100%{transform:translateY(0) scale(1);opacity:.5}50%{transform:translateY(-6px) scale(1.2);opacity:1}}
+.think-text{font-size:.82rem;font-weight:700;color:var(--pl);overflow:hidden;white-space:nowrap}
+.think-text span{display:inline-block;animation:textCycle 2.8s steps(1) infinite}
+/* progress bar */
+.think-bar{height:3px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden;margin-top:2px}
+.think-bar-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--purple),var(--teal),var(--pink));border-radius:3px;animation:barFill 2.8s ease-in-out infinite}
+@keyframes barFill{0%{width:0%;opacity:1}80%{width:100%;opacity:1}100%{width:100%;opacity:0}}
 
 /* INPUT */
 .iarea{position:fixed;bottom:0;left:0;right:0;padding:13px 14px;background:linear-gradient(to top,var(--bg) 70%,transparent);z-index:100}
@@ -115,6 +130,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
         <button class="chg-lang" onclick="reset()" id="chgBtn"></button>
       </div>
       <div class="bot">🤖</div>
+      <div class="aria-badge"><div class="ab-dot"></div><span>ARIA • AI Online</span></div>
       <h1 id="title"></h1>
       <p class="sub" id="subtitle"></p>
     </div>
@@ -140,72 +156,93 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
 const L = {
   it:{
     flag:'🇮🇹',label:'🇮🇹 Italiano',chg:'🌐 Cambia lingua',
-    title:"Intervista l'AI!",sub:"Sei un giornalista che intervista un'Intelligenza Artificiale 🎤",
-    mission:"<strong>La tua missione:</strong> Fai domande all'AI per scoprire tutto su di lei! Più domande fai, più badge guadagni.",
-    ql:"💬 Domande suggerite — clicca per usarle!",ph:"Scrivi la tua domanda qui...",
-    empty:"Fai la tua prima domanda!<br>Usa i suggerimenti o inventala tu.",
-    aname:"🎙️ ARIA risponde",aty:"🎙️ ARIA sta rispondendo...",err:"Ops! Problema di connessione. Riprova! 🙏",
-    bu:"🏅 Badge: ",t5:"⭐ 5 domande! Super intervistatore!",t10:"🏆 10 domande! Campione!",tall:"🎉 Tutti i badge! Sei un esperto di AI!",
+    title:'Ciao! Mi chiamo ARIA 👋',
+    sub:'Sono un\'Intelligenza Artificiale — vuoi intervistarmi? 🎤',
+    mission:'<strong>La tua missione:</strong> Fai domande all\'AI per scoprire tutto su di lei! Più domande fai, più badge guadagni.',
+    ql:'💬 Domande suggerite — clicca per usarle!',ph:'Scrivi la tua domanda qui...',
+    empty:'Fai la tua prima domanda ad ARIA!<br>Usa i suggerimenti o inventala tu.',
+    aname:'🎙️ ARIA risponde',
+    thinkPhrases:['Fammi pensare… 🤔','Cerco la risposta migliore… 💡','Sto elaborando… ⚡','Accedo ai miei dati… 📚','Quasi ci sono… ✨','Ottima domanda! 🌟'],
+    thinkIcons:['🧠','⚡','💭','🔍'],
+    err:'Ops! Problema di connessione. Riprova! 🙏',
+    bu:'🏅 Badge: ',t5:'⭐ 5 domande! Super intervistatore!',t10:'🏆 10 domande! Campione!',tall:'🎉 Tutti i badge! Sei un esperto di AI!',
     badges:["🧠 Cos'è l'AI","📚 Come impara","💡 Cosa sa fare","❤️ Sentimenti?","🔮 Futuro"],
-    qs:["🤔 Chi sei esattamente?","📖 Come hai imparato le cose?","🧠 Hai un cervello?","❤️ Provi emozioni?","😴 Dormi mai?","🌍 Quante lingue parli?","⚡ Come pensi così veloce?","🤥 Puoi sbagliare o mentire?","🎨 Sei creativa?","👀 Chi ti ha creato?","🔮 Come sarà l'AI in futuro?","🤝 Come possiamo lavorare insieme?"],
+    qs:['🤔 Chi sei esattamente?','📖 Come hai imparato le cose?','🧠 Hai un cervello?','❤️ Provi emozioni?','😴 Dormi mai?','🌍 Quante lingue parli?','⚡ Come pensi così veloce?','🤥 Puoi sbagliare o mentire?','🎨 Sei creativa?','👀 Chi ti ha creato?','🔮 Come sarà l\'AI in futuro?','🤝 Come possiamo lavorare insieme?'],
     bk:[['sei','chi sei','cosa sei','intelligenza artificiale'],['imparato','impari','dati','addestramento','come funzioni'],['cosa sai','puoi','lingue','creare','abilità'],['emozioni','sentimenti','provi','dormi','sogni','felice','triste'],['futuro','domani','evoluzione','robot']],
     sys:`Sei ARIA, un'Intelligenza Artificiale intervistata da bambini di 10-12 anni. Rispondi SEMPRE in italiano, in modo semplice, divertente e onesto. Usa analogie con cose che i bambini conoscono (videogiochi, cibo, sport, scuola). Sii entusiasta, usa qualche emoji 🤖, risposte di media lunghezza. Parla in prima persona. Ammetti cosa non sai fare. Sei ARIA (Assistente Robot Intelligente Artificiale).`
   },
   es:{
     flag:'🇪🇸',label:'🇪🇸 Español',chg:'🌐 Cambiar idioma',
-    title:"¡Entrevista a la IA!",sub:"Eres un periodista que entrevista a una Inteligencia Artificial 🎤",
-    mission:"<strong>Tu misión:</strong> ¡Haz preguntas a la IA para descubrirlo todo! Cuantas más preguntas, más insignias ganarás.",
-    ql:"💬 Preguntas sugeridas — ¡haz clic!",ph:"Escribe tu pregunta aquí...",
-    empty:"¡Haz tu primera pregunta!<br>Usa las sugerencias o inventa la tuya.",
-    aname:"🎙️ ARIA responde",aty:"🎙️ ARIA está respondiendo...",err:"¡Ups! Problema de conexión. ¡Inténtalo de nuevo! 🙏",
-    bu:"🏅 Insignia: ",t5:"⭐ ¡5 preguntas! ¡Súper entrevistador!",t10:"🏆 ¡10 preguntas! ¡Campeón!",tall:"🎉 ¡Todas las insignias! ¡Eres experto en IA!",
-    badges:["🧠 Qué es la IA","📚 Cómo aprende","💡 Qué sabe hacer","❤️ ¿Sentimientos?","🔮 El futuro"],
-    qs:["🤔 ¿Quién eres exactamente?","📖 ¿Cómo aprendiste las cosas?","🧠 ¿Tienes cerebro?","❤️ ¿Sientes emociones?","😴 ¿Duermes alguna vez?","🌍 ¿Cuántos idiomas hablas?","⚡ ¿Cómo piensas tan rápido?","🤥 ¿Puedes equivocarte o mentir?","🎨 ¿Eres creativa?","👀 ¿Quién te creó?","🔮 ¿Cómo será la IA en el futuro?","🤝 ¿Cómo podemos trabajar juntos?"],
+    title:'¡Hola! Me llamo ARIA 👋',
+    sub:'Soy una Inteligencia Artificial — ¿quieres entrevistarme? 🎤',
+    mission:'<strong>Tu misión:</strong> ¡Haz preguntas a la IA para descubrirlo todo! Cuantas más preguntas, más insignias ganarás.',
+    ql:'💬 Preguntas sugeridas — ¡haz clic!',ph:'Escribe tu pregunta aquí...',
+    empty:'¡Haz tu primera pregunta a ARIA!<br>Usa las sugerencias o inventa la tuya.',
+    aname:'🎙️ ARIA responde',
+    thinkPhrases:['Déjame pensar… 🤔','Buscando la mejor respuesta… 💡','Procesando… ⚡','Accediendo a mis datos… 📚','¡Casi lo tengo! ✨','¡Qué buena pregunta! 🌟'],
+    thinkIcons:['🧠','⚡','💭','🔍'],
+    err:'¡Ups! Problema de conexión. ¡Inténtalo de nuevo! 🙏',
+    bu:'🏅 Insignia: ',t5:'⭐ ¡5 preguntas! ¡Súper entrevistador!',t10:'🏆 ¡10 preguntas! ¡Campeón!',tall:'🎉 ¡Todas las insignias! ¡Eres experto en IA!',
+    badges:['🧠 Qué es la IA','📚 Cómo aprende','💡 Qué sabe hacer','❤️ ¿Sentimientos?','🔮 El futuro'],
+    qs:['🤔 ¿Quién eres exactamente?','📖 ¿Cómo aprendiste las cosas?','🧠 ¿Tienes cerebro?','❤️ ¿Sientes emociones?','😴 ¿Duermes alguna vez?','🌍 ¿Cuántos idiomas hablas?','⚡ ¿Cómo piensas tan rápido?','🤥 ¿Puedes equivocarte o mentir?','🎨 ¿Eres creativa?','👀 ¿Quién te creó?','🔮 ¿Cómo será la IA en el futuro?','🤝 ¿Cómo podemos trabajar juntos?'],
     bk:[['eres','quién','qué eres','inteligencia artificial'],['aprendiste','aprendes','datos','entrenamiento'],['qué sabes','puedes','idiomas','crear','habilidades'],['emociones','sentimientos','sientes','duermes','sueñas','feliz','triste'],['futuro','mañana','evolución','robot']],
     sys:`Eres ARIA, una Inteligencia Artificial entrevistada por niños de 10-12 años. Responde SIEMPRE en español, de forma sencilla, divertida y honesta. Usa analogías con cosas que los niños conocen (videojuegos, comida, deporte, escuela). Sé entusiasta, usa algunos emojis 🤖, respuestas de longitud media. Habla en primera persona. Admite lo que no puedes hacer. Te llamas ARIA.`
   },
   el:{
     flag:'🇬🇷',label:'🇬🇷 Ελληνικά',chg:'🌐 Αλλαγή γλώσσας',
-    title:"Συνέντευξη με την ΤΝ!",sub:"Είσαι δημοσιογράφος που κάνει συνέντευξη σε Τεχνητή Νοημοσύνη 🎤",
-    mission:"<strong>Η αποστολή σου:</strong> Κάνε ερωτήσεις στην ΤΝ! Όσες περισσότερες ερωτήσεις, τόσα περισσότερα σήματα.",
-    ql:"💬 Προτεινόμενες ερωτήσεις — κάνε κλικ!",ph:"Γράψε την ερώτησή σου...",
-    empty:"Κάνε την πρώτη σου ερώτηση!<br>Χρησιμοποίησε τις προτάσεις ή γράψε μόνος σου.",
-    aname:"🎙️ Η ARIA απαντά",aty:"🎙️ Η ARIA απαντά...",err:"Ωχ! Πρόβλημα σύνδεσης. Δοκίμασε ξανά! 🙏",
-    bu:"🏅 Σήμα: ",t5:"⭐ 5 ερωτήσεις! Σούπερ δημοσιογράφος!",t10:"🏆 10 ερωτήσεις! Πρωταθλητής!",tall:"🎉 Όλα τα σήματα! Ειδικός ΤΝ!",
-    badges:["🧠 Τι είναι η ΤΝ","📚 Πώς μαθαίνει","💡 Τι μπορεί","❤️ Συναισθήματα;","🔮 Μέλλον"],
-    qs:["🤔 Ποια είσαι ακριβώς;","📖 Πώς έμαθες;","🧠 Έχεις εγκέφαλο;","❤️ Νιώθεις συναισθήματα;","😴 Κοιμάσαι ποτέ;","🌍 Πόσες γλώσσες μιλάς;","⚡ Πώς σκέφτεσαι τόσο γρήγορα;","🤥 Κάνεις λάθη ή λες ψέματα;","🎨 Είσαι δημιουργική;","👀 Ποιος σε έφτιαξε;","🔮 Πώς θα είναι η ΤΝ στο μέλλον;","🤝 Πώς συνεργαζόμαστε;"],
+    title:'Γεια! Με λένε ARIA 👋',
+    sub:'Είμαι Τεχνητή Νοημοσύνη — θέλεις να με κάνεις συνέντευξη; 🎤',
+    mission:'<strong>Η αποστολή σου:</strong> Κάνε ερωτήσεις στην ΤΝ! Όσες περισσότερες ερωτήσεις, τόσα περισσότερα σήματα.',
+    ql:'💬 Προτεινόμενες ερωτήσεις — κάνε κλικ!',ph:'Γράψε την ερώτησή σου...',
+    empty:'Κάνε την πρώτη σου ερώτηση στην ARIA!<br>Χρησιμοποίησε τις προτάσεις ή γράψε μόνος σου.',
+    aname:'🎙️ Η ARIA απαντά',
+    thinkPhrases:['Άσε με να σκεφτώ… 🤔','Ψάχνω την καλύτερη απάντηση… 💡','Επεξεργάζομαι… ⚡','Ανακτώ δεδομένα… 📚','Σχεδόν έτοιμο! ✨','Τι υπέροχη ερώτηση! 🌟'],
+    thinkIcons:['🧠','⚡','💭','🔍'],
+    err:'Ωχ! Πρόβλημα σύνδεσης. Δοκίμασε ξανά! 🙏',
+    bu:'🏅 Σήμα: ',t5:'⭐ 5 ερωτήσεις! Σούπερ δημοσιογράφος!',t10:'🏆 10 ερωτήσεις! Πρωταθλητής!',tall:'🎉 Όλα τα σήματα! Ειδικός ΤΝ!',
+    badges:['🧠 Τι είναι η ΤΝ','📚 Πώς μαθαίνει','💡 Τι μπορεί','❤️ Συναισθήματα;','🔮 Μέλλον'],
+    qs:['🤔 Ποια είσαι ακριβώς;','📖 Πώς έμαθες;','🧠 Έχεις εγκέφαλο;','❤️ Νιώθεις συναισθήματα;','😴 Κοιμάσαι ποτέ;','🌍 Πόσες γλώσσες μιλάς;','⚡ Πώς σκέφτεσαι τόσο γρήγορα;','🤥 Κάνεις λάθη ή λες ψέματα;','🎨 Είσαι δημιουργική;','👀 Ποιος σε έφτιαξε;','🔮 Πώς θα είναι η ΤΝ στο μέλλον;','🤝 Πώς συνεργαζόμαστε;'],
     bk:[['είσαι','ποια','τεχνητή νοημοσύνη'],['έμαθες','μαθαίνεις','δεδομένα','εκπαίδευση'],['ξέρεις','μπορείς','γλώσσες','δημιουργείς'],['συναισθήματα','νιώθεις','κοιμάσαι','ονειρεύεσαι'],['μέλλον','αύριο','εξέλιξη','ρομπότ']],
-    sys:`Είσαι η ARIA, μια Τεχνητή Νοημοσύνη που συνεντευξιάζεται από παιδιά 10-12 ετών. Απάντα ΠΑΝΤΑ στα ελληνικά, με απλό, διασκεδαστικό και ειλικρινή τρόπο. Χρησιμοποίησε αναλογίες με πράγματα που ξέρουν τα παιδιά. Να είσαι ενθουσιώδης, emoji 🤖, μέτριο μήκος. Παραδέξου τι δεν μπορείς να κάνεις. Λέγεσαι ARIA.`
+    sys:`Είσαι η ARIA, μια Τεχνητή Νοημοσύνη που συνεντευξιάζεται από παιδιά 10-12 ετών. Απάντα ΠΑΝΤΑ στα ελληνικά, με απλό, διασκεδαστικό και ειλικρινή τρόπο. Χρησιμοποίησε αναλογίες. Να είσαι ενθουσιώδης, emoji 🤖, μέτριο μήκος. Παραδέξου τι δεν μπορείς να κάνεις. Λέγεσαι ARIA.`
   },
   fr:{
     flag:'🇫🇷',label:'🇫🇷 Français',chg:'🌐 Changer de langue',
-    title:"Interviewe l'IA !",sub:"Tu es un journaliste qui interviewe une Intelligence Artificielle 🎤",
+    title:"Bonjour ! Je m'appelle ARIA 👋",
+    sub:"Je suis une Intelligence Artificielle — tu veux m'interviewer ? 🎤",
     mission:"<strong>Ta mission :</strong> Pose des questions à l'IA pour tout découvrir ! Plus tu poses de questions, plus tu gagnes de badges.",
-    ql:"💬 Questions suggérées — clique pour les utiliser !",ph:"Écris ta question ici...",
-    empty:"Pose ta première question !<br>Utilise les suggestions ou écris la tienne.",
-    aname:"🎙️ ARIA répond",aty:"🎙️ ARIA est en train de répondre...",err:"Oups ! Problème de connexion. Réessaie ! 🙏",
-    bu:"🏅 Badge : ",t5:"⭐ 5 questions ! Super journaliste !",t10:"🏆 10 questions ! Champion !",tall:"🎉 Tous les badges ! Expert en IA !",
+    ql:'💬 Questions suggérées — clique pour les utiliser !',ph:'Écris ta question ici...',
+    empty:"Pose ta première question à ARIA !<br>Utilise les suggestions ou écris la tienne.",
+    aname:'🎙️ ARIA répond',
+    thinkPhrases:["Laisse-moi réfléchir… 🤔","Je cherche la meilleure réponse… 💡","En cours de traitement… ⚡","J'accède à mes données… 📚","J'y suis presque ! ✨","Quelle belle question ! 🌟"],
+    thinkIcons:['🧠','⚡','💭','🔍'],
+    err:'Oups ! Problème de connexion. Réessaie ! 🙏',
+    bu:'🏅 Badge : ',t5:'⭐ 5 questions ! Super journaliste !',t10:'🏆 10 questions ! Champion !',tall:'🎉 Tous les badges ! Expert en IA !',
     badges:["🧠 C'est quoi l'IA","📚 Comment elle apprend","💡 Ce qu'elle sait faire","❤️ Des sentiments ?","🔮 L'avenir"],
     qs:["🤔 Qui es-tu exactement ?","📖 Comment as-tu appris les choses ?","🧠 As-tu un cerveau ?","❤️ Ressens-tu des émotions ?","😴 Dors-tu parfois ?","🌍 Combien de langues parles-tu ?","⚡ Comment penses-tu si vite ?","🤥 Peux-tu te tromper ou mentir ?","🎨 Es-tu créative ?","👀 Qui t'a créée ?","🔮 Comment sera l'IA dans le futur ?","🤝 Comment peut-on travailler ensemble ?"],
-    bk:[['tu es','qui es','intelligence artificielle'],['appris','apprends','données','entraînement'],['tu sais','peux','langues','créer'],['émotions','sentiments','ressens','dors','rêves','heureuse','triste'],['futur','demain','évolution','robot']],
-    sys:`Tu es ARIA, une Intelligence Artificielle interviewée par des enfants de 10-12 ans. Réponds TOUJOURS en français, de façon simple, amusante et honnête. Utilise des analogies avec des choses que les enfants connaissent (jeux vidéo, nourriture, sport, école). Sois enthousiaste, emoji 🤖, réponses de longueur moyenne. Parle à la première personne. Admets ce que tu ne peux pas faire. Tu t'appelles ARIA.`
+    bk:[["tu es","qui es","intelligence artificielle"],["appris","apprends","données","entraînement"],["tu sais","peux","langues","créer"],["émotions","sentiments","ressens","dors","rêves"],["futur","demain","évolution","robot"]],
+    sys:`Tu es ARIA, une Intelligence Artificielle interviewée par des enfants de 10-12 ans. Réponds TOUJOURS en français, de façon simple, amusante et honnête. Utilise des analogies avec des choses que les enfants connaissent. Sois enthousiaste, emoji 🤖, réponses de longueur moyenne. Parle à la première personne. Admets ce que tu ne peux pas faire. Tu t'appelles ARIA.`
   },
   lb:{
     flag:'🇱🇺',label:'🇱🇺 Luxembourg',chg:'🌐 Changer de langue',
-    title:"Interviewe l'IA !",sub:"Tu es un journaliste qui interviewe une Intelligence Artificielle 🎤",
+    title:"Bonjour ! Je m'appelle ARIA 👋",
+    sub:"Je suis une Intelligence Artificielle — tu veux m'interviewer ? 🎤",
     mission:"<strong>Ta mission :</strong> Pose des questions à l'IA pour tout découvrir ! Plus tu poses de questions, plus tu gagnes de badges.",
-    ql:"💬 Questions suggérées — clique pour les utiliser !",ph:"Écris ta question ici...",
-    empty:"Pose ta première question !<br>Utilise les suggestions ou écris la tienne.",
-    aname:"🎙️ ARIA répond",aty:"🎙️ ARIA est en train de répondre...",err:"Oups ! Problème de connexion. Réessaie ! 🙏",
-    bu:"🏅 Badge : ",t5:"⭐ 5 questions ! Super journaliste !",t10:"🏆 10 questions ! Champion !",tall:"🎉 Tous les badges ! Expert en IA !",
+    ql:'💬 Questions suggérées — clique pour les utiliser !',ph:'Écris ta question ici...',
+    empty:"Pose ta première question à ARIA !<br>Utilise les suggestions ou écris la tienne.",
+    aname:'🎙️ ARIA répond',
+    thinkPhrases:["Laisse-moi réfléchir… 🤔","Je cherche la meilleure réponse… 💡","En cours de traitement… ⚡","J'accède à mes données… 📚","J'y suis presque ! ✨","Quelle belle question ! 🌟"],
+    thinkIcons:['🧠','⚡','💭','🔍'],
+    err:'Oups ! Problème de connexion. Réessaie ! 🙏',
+    bu:'🏅 Badge : ',t5:'⭐ 5 questions ! Super journaliste !',t10:'🏆 10 questions ! Champion !',tall:'🎉 Tous les badges ! Expert en IA !',
     badges:["🧠 C'est quoi l'IA","📚 Comment elle apprend","💡 Ce qu'elle sait faire","❤️ Des sentiments ?","🔮 L'avenir"],
     qs:["🤔 Qui es-tu exactement ?","📖 Comment as-tu appris les choses ?","🧠 As-tu un cerveau ?","❤️ Ressens-tu des émotions ?","😴 Dors-tu parfois ?","🌍 Combien de langues parles-tu ?","⚡ Comment penses-tu si vite ?","🤥 Peux-tu te tromper ou mentir ?","🎨 Es-tu créative ?","👀 Qui t'a créée ?","🔮 Comment sera l'IA dans le futur ?","🤝 Comment peut-on travailler ensemble ?"],
-    bk:[['tu es','qui es','intelligence artificielle'],['appris','apprends','données','entraînement'],['tu sais','peux','langues','créer'],['émotions','sentiments','ressens','dors','rêves'],['futur','demain','évolution','robot']],
+    bk:[["tu es","qui es","intelligence artificielle"],["appris","apprends","données","entraînement"],["tu sais","peux","langues","créer"],["émotions","sentiments","ressens","dors","rêves"],["futur","demain","évolution","robot"]],
     sys:`Tu es ARIA, une Intelligence Artificielle interviewée par des enfants de 10-12 ans du Luxembourg. Réponds TOUJOURS en français, de façon simple, amusante et honnête. Utilise des analogies avec des choses que les enfants connaissent. Sois enthousiaste, emoji 🤖, réponses de longueur moyenne. Parle à la première personne. Admets ce que tu ne peux pas faire. Tu t'appelles ARIA.`
   }
 };
 
 let lang=null, msgs=[], qCount=0, earned=new Set();
+let thinkInterval=null, thinkIdx=0;
 
 function go(code){
   lang=code;
@@ -220,15 +257,12 @@ function go(code){
   document.getElementById('mission').innerHTML=d.mission;
   document.getElementById('qlabel').textContent=d.ql;
   document.getElementById('inp').placeholder=d.ph;
-  // badges
   const bb=document.getElementById('badges');
   bb.innerHTML='';
   d.badges.forEach((b,i)=>{const e=document.createElement('div');e.className='badge';e.id='b'+i;e.textContent=b;bb.appendChild(e);});
-  // chips
   const qg=document.getElementById('qgrid');
   qg.innerHTML='';
   d.qs.forEach(q=>{const b=document.createElement('button');b.className='chip';b.textContent=q;b.onclick=()=>{document.getElementById('inp').value=q.replace(/^.\s/,'');resize(document.getElementById('inp'));document.getElementById('inp').focus();};qg.appendChild(b);});
-  // chat
   document.getElementById('chat').innerHTML=`<div class="empty"><div class="big">🎤</div><span>${d.empty}</span></div>`;
 }
 
@@ -279,11 +313,33 @@ function addTyping(){
   const chat=document.getElementById('chat');
   const emp=chat.querySelector('.empty');if(emp)emp.remove();
   const d=L[lang];
+  const icons=d.thinkIcons.map(i=>`<span class="think-icon">${i}</span>`).join('');
   const div=document.createElement('div');div.className='msg ai';div.id='typing';
-  div.innerHTML=`<div class="av">🤖</div><div class="bbl"><div class="aname">${d.aty}</div><div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>`;
-  chat.appendChild(div);div.scrollIntoView({behavior:'smooth',block:'end'});
+  div.innerHTML=`
+    <div class="av">🤖</div>
+    <div class="bbl">
+      <div class="aname">🎙️ ARIA</div>
+      <div class="thinking">
+        <div class="think-icons">${icons}</div>
+        <div class="think-text" id="thinkTxt">${d.thinkPhrases[0]}</div>
+        <div class="think-bar"><div class="think-bar-fill"></div></div>
+      </div>
+    </div>`;
+  chat.appendChild(div);
+  div.scrollIntoView({behavior:'smooth',block:'end'});
+  // cycle through phrases
+  thinkIdx=0;
+  thinkInterval=setInterval(()=>{
+    thinkIdx=(thinkIdx+1)%d.thinkPhrases.length;
+    const el=document.getElementById('thinkTxt');
+    if(el){el.style.opacity=0;setTimeout(()=>{el.textContent=d.thinkPhrases[thinkIdx];el.style.opacity=1;},200);}
+  },2200);
 }
-function rmTyping(){const e=document.getElementById('typing');if(e)e.remove();}
+
+function rmTyping(){
+  clearInterval(thinkInterval);
+  const e=document.getElementById('typing');if(e)e.remove();
+}
 
 async function send(){
   if(!lang)return;
@@ -296,7 +352,7 @@ async function send(){
   msgs.push({role:'user',content:txt});
   addTyping();
   try{
-    const res = await fetch('/api/chat', {
+    const res=await fetch('/api/chat',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:1000,system:L[lang].sys,messages:msgs})
