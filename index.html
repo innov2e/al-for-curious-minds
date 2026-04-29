@@ -110,11 +110,20 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;bac
 .depth-tag.d1{background:rgba(251,191,36,.15);color:var(--yellow)}
 .depth-tag.d2{background:rgba(6,182,212,.15);color:var(--teal)}
 .depth-tag.d3{background:rgba(16,185,129,.2);color:var(--green);box-shadow:0 0 12px rgba(16,185,129,.2)}
-.hint-inner{background:linear-gradient(135deg,rgba(124,58,237,.25),rgba(6,182,212,.15));border:1px solid rgba(124,58,237,.4);border-radius:16px;border-bottom-left-radius:4px;padding:11px 15px}
-.hint-label{font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:var(--pl);margin-bottom:6px}
-.hint-questions{display:flex;flex-direction:column;gap:5px}
-.hint-q{font-size:.83rem;font-weight:700;color:var(--white);cursor:pointer;padding:4px 8px;border-radius:8px;transition:background .15s}
-.hint-q:hover{background:rgba(124,58,237,.3)}
+/* ── HINT POPUP ── */
+#hintBubble{display:none;position:fixed;inset:0;z-index:500;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.45);backdrop-filter:blur(4px)}
+#hintBubble.on{display:flex;animation:hintIn .35s cubic-bezier(.34,1.56,.64,1)}
+@keyframes hintIn{from{opacity:0;transform:scale(.88)}to{opacity:1;transform:scale(1)}}
+.hint-inner{background:linear-gradient(135deg,var(--bg2),rgba(124,58,237,.25));border:1px solid rgba(124,58,237,.5);border-radius:22px;padding:22px 22px 18px;max-width:380px;width:100%;box-shadow:0 24px 60px rgba(0,0,0,.5),0 0 40px rgba(124,58,237,.2)}
+.hint-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.hint-label{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:var(--pl)}
+.hint-close{background:none;border:none;color:rgba(255,255,255,.4);font-size:1.1rem;cursor:pointer;padding:2px 6px;border-radius:6px;transition:all .15s}
+.hint-close:hover{color:var(--white);background:rgba(255,255,255,.1)}
+.hint-questions{display:flex;flex-direction:column;gap:8px}
+.hint-q{font-size:.9rem;font-weight:700;color:var(--white);cursor:pointer;padding:10px 14px;border-radius:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);transition:all .15s;line-height:1.4}
+.hint-q:hover{background:rgba(124,58,237,.35);border-color:var(--purple);transform:translateX(4px)}
+.hint-dismiss{margin-top:12px;width:100%;background:none;border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:8px;color:rgba(255,255,255,.4);font-family:"Nunito",sans-serif;font-size:.8rem;font-weight:700;cursor:pointer;transition:all .15s}
+.hint-dismiss:hover{background:rgba(255,255,255,.06);color:var(--white)}
 /* ── TEACHER BUTTON ── */
 #teacherBtn{position:fixed;bottom:80px;right:16px;width:44px;height:44px;border-radius:50%;background:rgba(124,58,237,.3);border:1px solid rgba(124,58,237,.5);color:var(--pl);font-size:1.2rem;cursor:pointer;display:none;align-items:center;justify-content:center;z-index:200;transition:all .2s}
 #teacherBtn:hover{background:rgba(124,58,237,.6);transform:scale(1.1)}
@@ -209,7 +218,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;bac
     </div>
     <div class="qlabel" id="qlabel"></div>
     <div class="qgrid" id="qgrid"></div>
-    <div id="hintBubble" style="display:none;margin:0 0 14px 48px;animation:fadeIn .4s ease"><div class="hint-inner"><div class="hint-label" id="hintLabel"></div><div class="hint-questions" id="hintQuestions"></div></div></div>
+    <div id="hintBubble" onclick="clearHint()"><div class="hint-inner" onclick="event.stopPropagation()"><div class="hint-header"><span class="hint-label" id="hintLabel"></span><button class="hint-close" onclick="clearHint()">&#x2715;</button></div><div class="hint-questions" id="hintQuestions"></div><button class="hint-dismiss" onclick="clearHint()" id="hintDismiss"></button></div></div>
     <div class="chat" id="chat">
       <div class="empty"><div class="big">&#x1F3A4;</div><span id="emptyTxt"></span></div>
     </div>
@@ -616,7 +625,7 @@ var HINT_PROMPTS = {
 function clearHint() {
   clearTimeout(hintTimer);
   var hb = document.getElementById("hintBubble");
-  if (hb) hb.style.display = "none";
+  if (hb) hb.classList.remove("on");
 }
 
 async function scheduleHint(context) {
@@ -650,8 +659,13 @@ async function scheduleHint(context) {
         };
         hqDiv.appendChild(btn);
       });
-      hb.style.display = "block";
-      hb.scrollIntoView({behavior:"smooth", block:"end"});
+      // Add dismiss button text
+      var dismissBtn = document.getElementById("hintDismiss");
+      if (dismissBtn) {
+        var dismissLabels = {it:"Non ora, grazie",es:"Ahora no, gracias",el:"Όχι τώρα",fr:"Pas maintenant",lb:"Pas maintenant",en:"Not now, thanks"};
+        dismissBtn.textContent = dismissLabels[lang] || "Not now";
+      }
+      hb.classList.add("on");
     } catch(e) {}
   }, HINT_DELAY);
 }
